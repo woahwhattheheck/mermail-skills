@@ -1,0 +1,186 @@
+{
+  "title": "Mermail Inbox Canary — real diagnostic run (X cut, under 140 s)",
+  "voice": "en_US-joe-medium",
+  "length_scale": 1.06,
+  "gap": 0.3,
+  "note": "Concise cut for a native X upload (120–140 s). Uses the same scenes as narration.json minus poll/checks/report, with the same sentence count per scene so the visual cues stay in sync. Facts must match src/evidence.json.",
+  "scenes": [
+    {
+      "id": "intro",
+      "lead": 1.0,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "An agent needs one answer before it shares its email address.",
+          "show": "An agent needs one answer before it shares its email address."
+        },
+        {
+          "say": "Does this mailbox actually deliver mail, end to end?",
+          "show": "Does this mailbox actually deliver mail, end to end?"
+        },
+        {
+          "say": "The Mer mail Inbox Canary skill answers with one tagged probe.",
+          "show": "The Mermail Inbox Canary skill answers with one tagged probe."
+        },
+        {
+          "say": "Here is a real run, where the round trip could not be verified.",
+          "show": "Here is a real run — where the round trip could not be verified."
+        },
+        {
+          "say": "The request:",
+          "show": "The request:"
+        },
+        {
+          "say": "Use Mer mail to prove my agent mailbox can send and receive mail, before I hand the address to a service.",
+          "show": "“Use Mermail to prove my agent mailbox can send and receive mail before I hand the address to a service.”"
+        }
+      ]
+    },
+    {
+      "id": "connect",
+      "lead": 0.5,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "The captured log shows a real Mer mail M C P session.",
+          "show": "The captured runner log shows a real hosted Mermail MCP session."
+        },
+        {
+          "say": "Server version one point oh point oh, with ninety-four tools.",
+          "show": "server mermail 1.0.0 · protocol 2025-06-18 · catalog: 94 tools"
+        },
+        {
+          "say": "Send email is present, which the probe needs.",
+          "show": "send_email is present, which the probe needs."
+        },
+        {
+          "say": "List mailboxes selected one owner inbox: token junkie labs, at Mer mail dot app.",
+          "show": "list_workspaces + list_mailboxes selected tokenjunkielabs@mermail.app (public_id e48c62aa…)."
+        }
+      ]
+    },
+    {
+      "id": "send",
+      "lead": 0.5,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "The probe plan is journaled first.",
+          "show": "The probe plan is journaled first."
+        },
+        {
+          "say": "Planned for ten fifty-one, U T C.",
+          "show": "planned_send_at 2026-10-07T10:51:25.521Z · token mc-20261007-fq450to1"
+        },
+        {
+          "say": "Then exactly one send email call, approved by the operator.",
+          "show": "Then exactly one send_email call — approved via --approve-send by the operator."
+        },
+        {
+          "say": "The receipt came back with status queued.",
+          "show": "Receipt: id d1658608… · status queued · undo_until 10:51:38.363Z."
+        },
+        {
+          "say": "This video is a replay of that run. No new email was sent.",
+          "show": "This video replays that run. No new email was sent."
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "lead": 0.5,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "Next, the runner searched for the token. With a self probe, that can match two messages: the sent copy, and, if delivery works, the received copy.",
+          "show": "Next, the runner searched for the token. In a self-probe that can match two messages: the sent copy and, if delivery works, the received copy."
+        },
+        {
+          "say": "So a match is only a candidate.",
+          "show": "So a match is only a candidate."
+        },
+        {
+          "say": "Each recorded read returned one message: the send receipt's own identifier, in the Sent folder.",
+          "show": "Every recorded read returned one message: d1658608… — the send receipt’s own id, folder_id \"sent\"."
+        },
+        {
+          "say": "Later reads show it delivered, still in Sent, total count one.",
+          "show": "Reads at 10:52:50Z and 10:55:23Z: delivery_status \"delivered\", folder Sent, totalCount 1."
+        },
+        {
+          "say": "That proves the outgoing leg only.",
+          "show": "That proves the outgoing leg only."
+        },
+        {
+          "say": "No distinct incoming copy was observed.",
+          "show": "No distinct incoming copy was observed."
+        }
+      ]
+    },
+    {
+      "id": "retraction",
+      "lead": 0.5,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "The runner's own verdict got this wrong.",
+          "show": "The runner’s own verdict got this wrong."
+        },
+        {
+          "say": "Its log called the Sent row, the arrived probe.",
+          "show": "Its log called the Sent row “the arrived probe” — folder_id \"sent\", delivery_status \"queued\"."
+        },
+        {
+          "say": "It reported a six point five second round trip, from a record date, not a receipt.",
+          "show": "It reported “degraded — round-trip 6.5s” from the date field: a record date, not a receipt."
+        },
+        {
+          "say": "That result is withdrawn.",
+          "show": "That result is withdrawn — never inbox proof."
+        },
+        {
+          "say": "The matcher now rejects the sent copy, and requires an in bound marker.",
+          "show": "The matcher now rejects the send receipt’s own id, Sent/Outbox and queued, and requires an inbound marker."
+        },
+        {
+          "say": "That fix was only tested on a synthetic case.",
+          "show": "That fix was only tested on a synthetic case — not provider evidence."
+        }
+      ]
+    },
+    {
+      "id": "verdict",
+      "lead": 0.5,
+      "tail": 0.6,
+      "sentences": [
+        {
+          "say": "The authoritative record: outgoing, delivered. Incoming, not observed. Round trip latency: not available.",
+          "show": "Authoritative: OUTBOUND DELIVERED · INBOUND NOT OBSERVED · ROUND-TRIP LATENCY UNAVAILABLE."
+        },
+        {
+          "say": "The inbound message identifier is null, and the latency is null.",
+          "show": "inbound_message_id: null · round_trip_latency: null"
+        },
+        {
+          "say": "Not healthy, and not reported as healthy.",
+          "show": "Not healthy — and not reported as healthy."
+        },
+        {
+          "say": "The skill's rule, which that verdict broke: never claim arrival on the basis of a send success.",
+          "show": "The skill’s rule — which that verdict broke: “Never claim the probe arrived on the basis of a send success or a pending state.”"
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "lead": 0.3,
+      "tail": 3.2,
+      "sentences": [
+        {
+          "say": "The skill is open for review in pull request four nine eight, on Mer mail skills.",
+          "show": "Open for review: github.com/Nudgen-Marketing/mermail-skills/pull/498"
+        }
+      ]
+    }
+  ]
+}

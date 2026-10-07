@@ -1,6 +1,6 @@
 # Mermail Inbox Canary: demo video (2026-10-07)
 
-This is a 4-minute English demo of the `mermail-inbox-canary` skill
+This is an English demo of the `mermail-inbox-canary` skill, in a long cut and an X cut,
 ([Nudgen-Marketing/mermail-skills PR #498](https://github.com/Nudgen-Marketing/mermail-skills/pull/498), head `0e9c800`).
 It walks through the one recorded live run on hosted Mermail MCP,
 `ACCOUNT-MERMAIL-INBOX-CANARY-20261007-01`, and its honest result:
@@ -9,16 +9,19 @@ It walks through the one recorded live run on hosted Mermail MCP,
 
 ## Files
 
+There are two cuts, built from the same scenes and evidence:
+
 | Path | What |
 | --- | --- |
-| `out/mermail-inbox-canary-demo-20261007.mp4` | Final video: H.264 1080p30 with AAC narration, burned-in captions, and a soft English subtitle track |
-| `out/*.en.srt`, `out/*.en.vtt` | English captions, for platforms that take a separate caption upload |
-| `out/*-poster.jpg` | Thumbnail taken from the verdict scene |
-| `out/evidence-manifest.json` | Output receipt (bytes, sha256, duration, streams), source hashes, skill blob SHAs, and the evidence values used |
-| `out/timeline.json` | Scene and caption timings |
-| `src/narration.json` | Script. `say` is the text sent to TTS; `show` is the caption text with exact identifiers |
-| `src/evidence.json` | Every run value shown on screen, with provenance and an explicit `not_claimed` list |
-| `src/video.html` | Editable scene source. Seekable, with deterministic `seek(t)` |
+| `out/mermail-inbox-canary-demo-20261007.mp4` | **Long cut**, about 4:45, for the 2–5 min listing. H.264 1080p30 with AAC narration, burned-in captions and a soft English subtitle track |
+| `out/mermail-inbox-canary-x-cut-20261007.mp4` | **X cut**, about 2:17 (under 140 s), for a native upload to a free X account. Same scenes without the poll, checks and report beats, with a shorter script |
+| `out/<cut>.en.srt`, `out/<cut>.en.vtt` | English captions for each cut |
+| `out/<cut>-poster.jpg` | Thumbnail taken from the verdict scene |
+| `out/<cut>.evidence-manifest.json` | Output receipt (bytes, sha256, duration, streams), source hashes, skill blob SHAs, and the evidence values used |
+| `out/<cut>.timeline.json` | Scene and caption timings |
+| `src/narration.json`, `src/narration-x.json` | Scripts for the two cuts. `say` is the text sent to TTS; `show` is the caption text with exact identifiers |
+| `src/evidence.json` | Every run value shown on screen, with provenance, a hash-verification note, and an explicit `not_claimed` list |
+| `src/video.html` | Editable scene source. Seekable, with deterministic `seek(t)`; scenes missing from a cut's timeline are skipped |
 | `src/render.mjs`, `src/build_audio.py`, `src/build.sh`, `src/make_manifest.py` | Render pipeline |
 
 ## Provenance and limits
@@ -43,7 +46,9 @@ It walks through the one recorded live run on hosted Mermail MCP,
   The record shows the send was approved with `--approve-send` by the operator.
 - The narration uses a synthetic voice: Piper `en_US-joe-medium`, which is CC0. Its wording was checked by transcribing the
   rendered narration with Whisper `base.en`. The fonts are Inter and JetBrains Mono, both under the SIL OFL.
-- `DRAFT fallback v1`, Slack file `F0C7E9UEJE6`, was rendered before the packet arrived and is superseded by this build.
+- Earlier internal uploads, both superseded by this build: `DRAFT fallback v1` (Slack `F0C7E9UEJE6`), rendered before the packet arrived, and long candidate v2 (Slack `F0C7EC8MFDG`).
+- There is no screen recording of a live client in either cut. This cloud session had no authenticated Mermail access, so the
+  cuts show typeset captured records rather than client footage, and they are labelled that way.
 
 ## Rebuild
 
@@ -52,6 +57,9 @@ python3 -m venv venv && venv/bin/pip install piper-tts
 curl -LO https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/joe/medium/en_US-joe-medium.onnx
 curl -LO https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/joe/medium/en_US-joe-medium.onnx.json
 VOICE=$PWD/en_US-joe-medium.onnx PYTHON=$PWD/venv/bin/python src/build.sh /tmp/canary-work out
+# X cut (under 140 s):
+NARRATION=narration-x.json LENGTH_SCALE=1.06 NAME=mermail-inbox-canary-x-cut-20261007 \
+  VOICE=$PWD/en_US-joe-medium.onnx PYTHON=$PWD/venv/bin/python src/build.sh /tmp/canary-work-x out
 ```
 
 The build needs Node with `playwright` (Chromium) and ffmpeg. To edit the wording, change `src/narration.json`; the

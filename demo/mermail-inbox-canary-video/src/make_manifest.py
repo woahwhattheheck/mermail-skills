@@ -40,7 +40,9 @@ def main():
         streams.append({k: v for k, v in e.items() if v is not None})
     out_dir = mp4.parent
     siblings = {p.name: {"bytes": p.stat().st_size, "sha256": sha256(p)}
-                for p in sorted(out_dir.iterdir()) if p.is_file() and p != mp4 and p.name != "evidence-manifest.json"}
+                for p in sorted(out_dir.iterdir())
+                if p.is_file() and p != mp4 and p.name.startswith((mp4.stem + ".", mp4.stem + "-"))
+                and not p.name.endswith("evidence-manifest.json")}
     sources = {str(p.relative_to(SRC)): sha256(p) for p in sorted(SRC.rglob("*")) if p.is_file()}
     skill_paths = ["skills/mermail-inbox-canary/SKILL.md", "skills/mermail-inbox-canary/references/tools.md",
                    "skills/mermail-inbox-canary/references/security.md", "tests/scenarios.json"]

@@ -76,7 +76,7 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
 .caret{display:inline-block;width:3px;height:1.05em;background:var(--mint);vertical-align:-.15em;margin-left:3px}
 .big{font-size:150px;font-weight:800;letter-spacing:-.04em;line-height:1}
 .hl{color:#fff;font-weight:700} .hlm{color:var(--mint);font-weight:700} .hla{color:var(--amber);font-weight:700} .hlr{color:var(--red);font-weight:700}
-.hlbox{outline:2px solid rgba(255,181,71,.7);outline-offset:3px;border-radius:4px}
+.hlbox{outline:2px solid rgba(255,181,71,0);outline-offset:3px;border-radius:4px}
 .obs{display:flex;align-items:center;gap:18px;padding:12px 0;border-top:1px solid var(--line);font-size:21px}
 .obs:first-of-type{border-top:0}
 .obs .t{width:130px;color:var(--text);font-size:20px} .obs .w{width:230px;color:var(--muted)} .obs .v{color:var(--amber);font-size:20px}
@@ -110,10 +110,10 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
       <g font-family="InterV" font-weight="700">
         <rect x="470" y="140" width="300" height="130" rx="22" fill="#101720" stroke="#2A3847"/>
         <text x="620" y="198" fill="#E9EFF6" font-size="28" text-anchor="middle">Agent mailbox</text>
-        <text x="620" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">sender</text>
+        <text x="620" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">sender = recipient</text>
         <rect x="1150" y="140" width="300" height="130" rx="22" fill="#101720" stroke="#2A3847"/>
-        <text x="1300" y="198" fill="#E9EFF6" font-size="28" text-anchor="middle">Agent mailbox</text>
-        <text x="1300" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">recipient</text>
+        <text x="1300" y="198" fill="#E9EFF6" font-size="28" text-anchor="middle">Mermail</text>
+        <text x="1300" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">delivery</text>
         <path d="M780,170 C900,60 1020,60 1140,170" fill="none" stroke="#3DDC97" stroke-width="4" marker-end="url(#ah)"/>
         <text x="960" y="72" fill="#3DDC97" font-size="22" text-anchor="middle">outbound leg</text>
         <path d="M1140,245 C1020,355 900,355 780,245" fill="none" stroke="#FFB547" stroke-width="4" stroke-dasharray="12 10" marker-end="url(#ah2)"/>
@@ -145,6 +145,7 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
 <span class="k" data-at="c1" data-fx="fade"><span class="p">[2026-10-07 10:51:24Z]</span> connected. server: <b class="hl">mermail 1.0.0</b> protocol: <b class="hl">2025-06-18</b></span>
 <span class="k" data-at="c1@0.7" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> catalog: <b class="hl">94 tools</b>; <b class="hlm">send_email present as 'send_email'</b>; idempotencyKey schema-declared: true</span>
 <span class="k" data-at="c3" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> STEP 1 — resolve workspace + mailboxes (<span class="key">list_workspaces</span>, <span class="key">list_mailboxes</span>)</span>
+<span class="k p" data-at="c3+0.2" data-fx="fade">…</span>
 <span class="k" data-at="c3@0.45" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> mailbox selected: <b class="hl">tokenjunkielabs@mermail.app</b> (public_id e48c62aa-88e2-48be-8233-b01626e53d85)</span></pre>
     </div>
     <div class="k card" data-at="c2@0.5" data-fx="up" style="left:96px;top:500px;width:840px;padding:24px 30px">
@@ -175,7 +176,7 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
   <span class="key">"to"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
   <span class="key">"mailboxId"</span><span class="p">:</span> <span class="s">"e48c62aa-88e2-48be-8233-b01626e53d85"</span><span class="p">,</span>
   <span class="key">"idempotencyKey"</span><span class="p">:</span> <span class="s">"mc-20261007-fq450to1"</span><span class="p">,</span>
-  <span class="key">"planned_send_at"</span><span class="p">:</span> <span class="s hlbox k" data-at="c1" data-fx="fade">"2026-10-07T10:51:25.521Z"</span><span class="p">,</span>
+  <span class="key">"planned_send_at"</span><span class="p">:</span> <span class="s hlbox k" data-at="c1" data-fx="hl">"2026-10-07T10:51:25.521Z"</span><span class="p">,</span><span class="p"> …</span>
   <span class="key">"sent_at"</span><span class="p">:</span> <span class="s">"2026-10-07T10:51:26.827Z"</span><span class="p">,</span>
   <span class="key">"send_result"</span><span class="p">: {</span>
     <span class="key">"id"</span><span class="p">:</span> <span class="s">"d1658608-52ce-4213-9886-f5c70a93efd3"</span><span class="p">,</span>
@@ -187,8 +188,9 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
     <div class="k card" data-at="c2-0.2" data-fx="up" style="left:1036px;top:176px;width:788px;padding:24px 30px">
       <div class="ct"><span class="dot" style="background:var(--amber)"></span>Captured log · step 2</div>
 <pre class="code" style="font-size:18px;line-height:1.55;white-space:pre-wrap"><span class="p">[10:51:25Z]</span> STEP 2 — <span class="key">send_email</span> probe (external effect; <b class="hlm">approved via --approve-send by the operator</b>)
+<span class="p">…</span>
 <span class="k" data-at="c3" data-fx="fade"><span class="p">[10:51:26Z]</span> send result: {"id":"<b class="hl">d1658608-52ce-4213-9886-f5c70a93efd3</b>","status":"<b class="hla">queued</b>","undo_until":"2026-10-07T10:51:38.363Z"}</span></pre>
-      <div class="src" style="margin-top:10px">date prefix shortened; lines wrapped</div>
+      <div class="src" style="margin-top:10px">date prefix shortened; lines wrapped; … marks omitted text</div>
     </div>
     <div class="k" data-at="c3+0.6" data-fx="fade" style="position:absolute;left:1036px;top:520px;width:788px;height:110px">
       <div style="position:absolute;left:0;right:0;top:40px;height:3px;background:var(--line2)"></div>
@@ -248,14 +250,14 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
     <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:860px;padding:24px 32px">
       <div class="ct"><span class="dot"></span>Recorded search result · structuredContent</div>
 <pre class="code" style="font-size:19.5px;line-height:1.5"><span class="p">{</span> <span class="key">"emails"</span><span class="p">: [{</span>
-  <span class="key">"id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2+0.3" data-fx="fade">"d1658608-52ce-4213-9886-f5c70a93efd3"</span><span class="p">,</span>
+  <span class="key">"id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2+0.3" data-fx="hl">"d1658608-52ce-4213-9886-f5c70a93efd3"</span><span class="p">,</span>
   <span class="key">"subject"</span><span class="p">:</span> <span class="s">"mermail-canary mc-20261007-fq450to1"</span><span class="p">,</span>
   <span class="key">"sender"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
-  <span class="key">"recipient"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
-  <span class="key">"folder_id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2@0.7" data-fx="fade">"sent"</span><span class="p">,</span>
-  <span class="key">"delivery_status"</span><span class="p">:</span> <span class="s">"delivered"</span><span class="p">,</span>
+  <span class="key">"recipient"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span><span class="p"> …</span>
+  <span class="key">"folder_id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2@0.7" data-fx="hl">"sent"</span><span class="p">,</span>
+  <span class="key">"delivery_status"</span><span class="p">:</span> <span class="s">"delivered"</span><span class="p">,</span><span class="p"> …</span>
   <span class="key">"folder_name"</span><span class="p">:</span> <span class="s">"Sent"</span><span class="p">,</span> <span class="p">…</span>
-<span class="p">}],</span> <span class="key">"totalCount"</span><span class="p">:</span> <span class="n hlbox k" data-at="c3@0.8" data-fx="fade">1</span> <span class="p">}</span></pre>
+<span class="p">}],</span> <span class="key">"totalCount"</span><span class="p">:</span> <span class="n hlbox k" data-at="c3@0.8" data-fx="hl">1</span> <span class="p">}</span></pre>
       <div class="k" data-at="c2+1.0" data-fx="fade" style="display:flex;gap:12px;margin-top:14px"><span class="chip mint">id = send receipt id</span><span class="chip grey">the outgoing copy</span></div>
     </div>
     <div class="k card" data-at="c0@0.6" data-fx="up" style="left:1000px;top:176px;width:824px;padding:24px 30px">
@@ -278,8 +280,8 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
       <div class="h2" style="margin-top:10px">Matching the Sent copy is not an arrival</div>
     </div>
     <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:1000px;height:470px;padding:24px 32px">
-      <div class="ct"><span class="dot" style="background:var(--red)"></span>Captured log · first runner pass</div>
-<pre class="code" style="font-size:18.5px;line-height:1.58;white-space:pre-wrap"><span class="k" data-at="c1" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> STEP 4 — <span class="key">get_email</span> on <b class="hlr">the arrived probe</b> (d1658608-52ce-4213-9886-f5c70a93efd3)</span><span class="k" data-at="c1@0.55" data-fx="fade" style="display:block"><span class="p">[10:51:32Z]</span> probe detail: {… "date":"2026-10-07T10:51:33.363Z", … <b class="hla">"folder_id":"sent","delivery_status":"queued"</b> …}</span><span class="k" data-at="c2" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> VERDICT: <b class="hlr">degraded — round-trip 6.5s</b> (provider field: date; header/record date, not a receipt)<span class="k" data-at="c3-0.3" data-fx="grow" style="position:absolute;left:-6px;right:0;top:15px;height:4px;background:var(--red);transform-origin:left;border-radius:3px"></span></span></pre>
+      <div class="ct"><span class="dot" style="background:var(--red)"></span>Captured log · runner verdict</div>
+<pre class="code" style="font-size:18.5px;line-height:1.58;white-space:pre-wrap"><span class="k" data-at="c1" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> STEP 4 — <span class="key">get_email</span> on <b class="hlr">the arrived probe</b> (d1658608-52ce-4213-9886-f5c70a93efd3)</span><span class="k" data-at="c1@0.55" data-fx="fade" style="display:block"><span class="p">[10:51:32Z]</span> probe detail: {… "date":"2026-10-07T10:51:33.363Z", … <b class="hla">"folder_id":"sent","delivery_status":"queued"</b> …</span><span class="k" data-at="c2" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> VERDICT: <b class="hlr">degraded — round-trip 6.5s</b> (provider field: date; header/record date, not a receipt) …<span class="k" data-at="c3-0.3" data-fx="grow" style="position:absolute;left:-6px;right:0;top:15px;height:4px;background:var(--red);transform-origin:left;border-radius:3px"></span></span></pre>
       <div class="k" data-at="c2@0.6" data-fx="fade" style="margin-top:16px;font-size:20px;color:var(--muted)"><span class="mono">10:51:33.363 (date) − 10:51:26.827 (sent_at) = 6.536 s</span> · a record date, not a receipt <span style="color:var(--dim)">(derived)</span></div>
       <div class="k stamp" data-at="c3" data-fx="pop" style="left:600px;top:330px;color:var(--red);border-color:var(--red);background:rgba(9,13,18,.9);text-align:center;line-height:1.1"><div style="transform:rotate(-5deg)">Withdrawn<div style="font-size:17px;letter-spacing:.12em;margin-top:6px">not inbox proof</div></div></div>
     </div>
@@ -288,7 +290,7 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
       <div class="k" data-at="c4@0.30" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject the send receipt’s own id</div>
       <div class="k" data-at="c4@0.45" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject folder <span class="mono">sent</span> / <span class="mono">outbox</span></div>
       <div class="k" data-at="c4@0.58" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject status <span class="mono">queued</span></div>
-      <div class="k" data-at="c4@0.78" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--mint);font-weight:800">✓</span> require a distinct incoming copy</div>
+      <div class="k" data-at="c4@0.78" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--mint);font-weight:800">✓</span> require an inbound marker</div>
       <div class="k" data-at="c5" data-fx="up" style="margin-top:22px"><span class="chip amber" style="font-size:18px;padding:9px 16px">Synthetic case only — not provider evidence</span></div>
     </div>
   </section>
@@ -337,12 +339,12 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
     </div>
     <div class="k card" data-at="c1-0.2" data-fx="up" style="left:96px;top:436px;width:1060px;padding:22px 32px">
       <div class="ct" style="margin-bottom:12px"><span class="dot" style="background:var(--violet)"></span>mermail-live-canary-authoritative-20261007.json</div>
-<pre class="code" style="font-size:19px;line-height:1.5"><span class="key">"observed_at"</span><span class="p">:</span> <span class="s">"2026-10-07T10:55:23.492Z"</span><span class="p">,</span>
+<pre class="code" style="font-size:19px;line-height:1.5"><span class="p">… </span><span class="key">"observed_at"</span><span class="p">:</span> <span class="s">"2026-10-07T10:55:23.492Z"</span><span class="p">,</span><span class="p"> …</span>
 <span class="key">"raw_runner_verdict"</span><span class="p">:</span> <span class="s">"degraded"</span><span class="p">,</span>
-<span class="key">"authoritative_verdict"</span><span class="p">:</span> <span class="s">"no_inbound_delivery_observed_in_bounded_window"</span><span class="p">,</span>
+<span class="key">"authoritative_verdict"</span><span class="p">:</span> <span class="s">"no_inbound_delivery_observed_in_bounded_window"</span><span class="p">,</span><span class="p"> …</span>
 <span class="key">"outbound_status"</span><span class="p">:</span> <span class="s">"delivered"</span><span class="p">,</span>
-<span class="key">"inbound_message_id"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.4" data-fx="fade">null</span><span class="p">,</span>
-<span class="key">"round_trip_latency"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.8" data-fx="fade">null</span></pre>
+<span class="key">"inbound_message_id"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.4" data-fx="hl">null</span><span class="p">,</span>
+<span class="key">"round_trip_latency"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.8" data-fx="hl">null</span><span class="p">, …</span></pre>
     </div>
     <div class="k" data-at="c2" data-fx="up" style="position:absolute;left:1196px;top:436px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;width:628px">
       <span class="chip red" style="font-size:21px;padding:9px 18px">not healthy</span>
@@ -362,7 +364,7 @@ pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D
       <div class="h2" style="margin-top:10px">Auditable, and honest about the gap</div>
     </div>
     <div class="k card" data-at="c0" data-fx="up" style="left:96px;top:186px;width:1100px;padding:26px 36px">
-      <div class="ct"><span class="dot" style="background:var(--violet)"></span>Canary report · 2026-10-07</div>
+      <div class="ct"><span class="dot" style="background:var(--violet)"></span>Report summary · composed from the records</div>
       <div class="row k" data-at="c0@0.15" data-fx="left"><span class="kk">mailbox</span><span class="vv mono" style="font-size:21px;line-height:1.45">tokenjunkielabs@mermail.app<br><span style="color:var(--muted)">e48c62aa-88e2-48be-8233-b01626e53d85</span></span></div>
       <div class="row k" data-at="c0@0.5" data-fx="left"><span class="kk">probe token</span><span class="vv mono" style="font-size:21px;color:var(--mint)">mc-20261007-fq450to1</span></div>
       <div class="row k" data-at="c0@0.75" data-fx="left"><span class="kk">outgoing id</span><span class="vv mono" style="font-size:21px">d1658608-52ce-4213-9886-f5c70a93efd3</span></div>
@@ -437,9 +439,12 @@ function resolveDur(spec, sc, fallback) {
 
 window.initTimeline = function (tl) {
   TL = tl;
-  SCENES = [...document.querySelectorAll('.scene')].map(el => {
+  SCENES = [...document.querySelectorAll('.scene')].filter(el => {
+    const keep = tl.scenes.some(s => s.id === el.dataset.scene);
+    if (!keep) el.style.display = 'none';  // scene not used by this cut
+    return keep;
+  }).map(el => {
     const meta = tl.scenes.find(s => s.id === el.dataset.scene);
-    if (!meta) throw new Error('no timeline for scene ' + el.dataset.scene);
     const cues = tl.cues.filter(c => c.scene === meta.id);
     const sc = {el, id: meta.id, start: meta.start, end: meta.end, cues, label: el.dataset.label || ''};
     sc.labelAt = el.dataset.labelAt ? resolveTime(el.dataset.labelAt, sc) : sc.start + 0.6;
@@ -484,6 +489,11 @@ function applyItem(it, t) {
       const q = ((t - it.at) / it.dur) % 1;
       op = t >= it.at ? 1 : 0;
       tf = `translateX(${-120 + q * 944}px)`;
+      break;
+    }
+    case 'hl': {  // text always visible; only the highlight outline animates in
+      op = 1;
+      el.style.outlineColor = `rgba(255,181,71,${(0.75 * e).toFixed(3)})`;
       break;
     }
     default: break; // fade

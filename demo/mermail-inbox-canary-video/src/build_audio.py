@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Synthesize narration with Piper, then emit timeline.json, narration.wav and captions.
 
-Usage: build_audio.py <voice.onnx> <out_dir> [length_scale]
+Usage: [NARRATION=narration-x.json] build_audio.py <voice.onnx> <out_dir> [length_scale]
 """
 import json
+import os
 import sys
 import wave
 from pathlib import Path
@@ -29,7 +30,8 @@ def main():
     clips = out_dir / "clips"
     clips.mkdir(exist_ok=True)
 
-    narration = json.loads((SRC / "narration.json").read_text())
+    narration = json.loads((SRC / os.environ.get("NARRATION", "narration.json")).read_text())
+    gap = narration.get("gap", GAP)
     voice = PiperVoice.load(str(voice_path))
     cfg = SynthesisConfig(length_scale=length_scale)
     rate = voice.config.sample_rate
@@ -60,7 +62,7 @@ def main():
             cues.append({"scene": scene["id"], "index": i, "start": round(cue_start, 3),
                          "end": round(t, 3), "text": s["show"]})
             if i < len(scene["sentences"]) - 1:
-                pad(GAP)
+                pad(gap)
         pad(scene["tail"])
         timeline["scenes"].append({"id": scene["id"], "start": round(start, 3), "end": round(t, 3),
                                    "cues": [c["start"] for c in cues]})

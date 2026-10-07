@@ -22,8 +22,8 @@
           "show": "The Mermail Inbox Canary skill answers that with one tagged probe and a verdict grounded only in real tool results."
         },
         {
-          "say": "This is a real run against hosted Mer mail, and it shows what the skill does when the round trip cannot be verified.",
-          "show": "This is a real run against hosted Mermail — and it shows what the skill does when the round trip cannot be verified."
+          "say": "This is a real run against hosted Mer mail. The round trip could not be verified, and the runner's own verdict had to be withdrawn.",
+          "show": "This is a real run against hosted Mermail. The round trip could not be verified — and the runner’s own verdict had to be withdrawn."
         },
         {
           "say": "The request it serves looks like this.",
@@ -91,12 +91,12 @@
       "tail": 0.8,
       "sentences": [
         {
-          "say": "Next, the runner checks the receiving mailbox with bounded search emails reads: metadata only, held messages included.",
-          "show": "Next, the runner checks the receiving mailbox with bounded search_emails reads: metadata only, held messages included."
+          "say": "Next, the runner ran one bounded search emails poll on the receiving mailbox: metadata only, held messages included.",
+          "show": "Next, the runner ran one bounded search_emails poll on the receiving mailbox: metadata only, held messages included."
         },
         {
-          "say": "The first read, five seconds after the send, returned one candidate.",
-          "show": "First read, +5 s: candidates=1 total=1."
+          "say": "That read, five seconds after the send, returned one candidate.",
+          "show": "Poll after +5 s: candidates=1 total=1."
         },
         {
           "say": "But a search hit is only a candidate. It still has to pass validation before it counts as an arrival.",
@@ -110,8 +110,8 @@
       "tail": 0.9,
       "sentences": [
         {
-          "say": "Here is the catch with a self probe. The token appears on two different messages: the copy that was sent, and the copy that is received.",
-          "show": "Here is the catch with a self-probe: the token appears on two different messages — the copy that was sent, and the copy that is received."
+          "say": "Here is the catch with a self probe. The token can appear on two different messages: the copy that was sent, and, if delivery works, the copy that is received.",
+          "show": "Here is the catch with a self-probe: the token can appear on two different messages — the copy that was sent and, if delivery works, the copy that is received."
         },
         {
           "say": "Searching by token alone can surface both.",
@@ -141,8 +141,8 @@
       "tail": 0.9,
       "sentences": [
         {
-          "say": "And this is exactly where the runner's first pass went wrong.",
-          "show": "And this is exactly where the runner’s first pass went wrong."
+          "say": "And this is exactly where the runner's own verdict went wrong.",
+          "show": "And this is exactly where the runner’s own verdict went wrong."
         },
         {
           "say": "Its log called that message the arrived probe. But the record says folder Sent, and delivery status queued.",
@@ -157,8 +157,8 @@
           "show": "That result is withdrawn, and it is never used as inbox proof."
         },
         {
-          "say": "The matching rule was then tightened. Now it rejects the send receipt's own identifier, the Sent and Outbox folders, and queued status. And it requires a distinct incoming copy.",
-          "show": "The matcher was then tightened: it rejects the send receipt’s own id, Sent/Outbox folders and queued status, and requires a distinct incoming copy."
+          "say": "The matching rule was then tightened. Now it rejects the send receipt's own identifier, the Sent and Outbox folders, and queued status. And it requires an in bound marker.",
+          "show": "The matcher was then tightened: it rejects the send receipt’s own id, Sent/Outbox folders and queued status, and requires an inbound marker."
         },
         {
           "say": "That repair has only been exercised on a synthetic case, so it is not presented as provider evidence.",
@@ -180,8 +180,8 @@
           "show": "sender_authentication: unknown (reason: inbound_provider_unavailable) · scan_status: null."
         },
         {
-          "say": "Zero validating candidates, inside the bounded window.",
-          "show": "Zero validating candidates inside the bounded window."
+          "say": "Judged by those rules, zero candidates qualify, inside the bounded window.",
+          "show": "Judged by those rules: zero validating candidates inside the bounded window."
         }
       ]
     },
@@ -203,8 +203,8 @@
           "show": "This is not a healthy result, and it is not reported as one."
         },
         {
-          "say": "In the skill's own words: never claim the probe arrived on the basis of a send success, or a pending state.",
-          "show": "In the skill’s own words: “Never claim the probe arrived on the basis of a send success or a pending state.”"
+          "say": "That is the skill's own rule, which the runner's verdict broke: never claim the probe arrived on the basis of a send success, or a pending state.",
+          "show": "The skill’s own rule — which the runner’s verdict broke: “Never claim the probe arrived on the basis of a send success or a pending state.”"
         }
       ]
     },
@@ -214,8 +214,8 @@
       "tail": 1.2,
       "sentences": [
         {
-          "say": "The final report names the mailbox and its public identifier, the probe token, and the outgoing message identifier.",
-          "show": "The final report names the mailbox and its public_id, the probe token, and the outgoing message id."
+          "say": "This summary, composed from the records, names the mailbox and its public identifier, the probe token, and the outgoing message identifier.",
+          "show": "This summary, composed from the records, names the mailbox and its public_id, the probe token, and the outgoing message id."
         },
         {
           "say": "The skill never deletes or moves the probe automatically. Its identifier is reported, so the owner can handle it.",
