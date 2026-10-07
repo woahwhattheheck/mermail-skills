@@ -1,0 +1,315 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "id": "intro",
+      "start": 0.0,
+      "end": 24.358,
+      "cues": [
+        1.0,
+        4.969,
+        8.624,
+        12.709,
+        16.376,
+        17.756
+      ]
+    },
+    {
+      "id": "connect",
+      "start": 24.358,
+      "end": 42.159,
+      "cues": [
+        24.858,
+        28.745,
+        32.795,
+        35.998
+      ]
+    },
+    {
+      "id": "send",
+      "start": 42.159,
+      "end": 59.03,
+      "cues": [
+        42.659,
+        44.944,
+        47.857,
+        52.267,
+        54.889
+      ]
+    },
+    {
+      "id": "compare",
+      "start": 59.03,
+      "end": 87.032,
+      "cues": [
+        59.53,
+        69.234,
+        71.507,
+        77.578,
+        81.616,
+        84.017
+      ]
+    },
+    {
+      "id": "retraction",
+      "start": 87.032,
+      "end": 108.382,
+      "cues": [
+        87.532,
+        89.945,
+        93.148,
+        98.544,
+        100.354,
+        104.88
+      ]
+    },
+    {
+      "id": "verdict",
+      "start": 108.382,
+      "end": 129.852,
+      "cues": [
+        108.882,
+        116.125,
+        120.512,
+        123.331
+      ]
+    },
+    {
+      "id": "end",
+      "start": 129.852,
+      "end": 137.88,
+      "cues": [
+        130.152
+      ]
+    }
+  ],
+  "cues": [
+    {
+      "scene": "intro",
+      "index": 0,
+      "start": 1.0,
+      "end": 4.669,
+      "text": "An agent needs one answer before it shares its email address."
+    },
+    {
+      "scene": "intro",
+      "index": 1,
+      "start": 4.969,
+      "end": 8.324,
+      "text": "Does this mailbox actually deliver mail, end to end?"
+    },
+    {
+      "scene": "intro",
+      "index": 2,
+      "start": 8.624,
+      "end": 12.409,
+      "text": "The Mermail Inbox Canary skill answers with one tagged probe."
+    },
+    {
+      "scene": "intro",
+      "index": 3,
+      "start": 12.709,
+      "end": 16.076,
+      "text": "Here is a real run \u2014 where the round trip could not be verified."
+    },
+    {
+      "scene": "intro",
+      "index": 4,
+      "start": 16.376,
+      "end": 17.456,
+      "text": "The request:"
+    },
+    {
+      "scene": "intro",
+      "index": 5,
+      "start": 17.756,
+      "end": 23.758,
+      "text": "\u201cUse Mermail to prove my agent mailbox can send and receive mail before I hand the address to a service.\u201d"
+    },
+    {
+      "scene": "connect",
+      "index": 0,
+      "start": 24.858,
+      "end": 28.445,
+      "text": "The captured runner log shows a real hosted Mermail MCP session."
+    },
+    {
+      "scene": "connect",
+      "index": 1,
+      "start": 28.745,
+      "end": 32.495,
+      "text": "server mermail 1.0.0 \u00b7 protocol 2025-06-18 \u00b7 catalog: 94 tools"
+    },
+    {
+      "scene": "connect",
+      "index": 2,
+      "start": 32.795,
+      "end": 35.698,
+      "text": "send_email is present, which the probe needs."
+    },
+    {
+      "scene": "connect",
+      "index": 3,
+      "start": 35.998,
+      "end": 41.559,
+      "text": "list_workspaces + list_mailboxes selected tokenjunkielabs@mermail.app (public_id e48c62aa\u2026)."
+    },
+    {
+      "scene": "send",
+      "index": 0,
+      "start": 42.659,
+      "end": 44.644,
+      "text": "The probe plan is journaled first."
+    },
+    {
+      "scene": "send",
+      "index": 1,
+      "start": 44.944,
+      "end": 47.557,
+      "text": "planned_send_at 2026-10-07T10:51:25.521Z \u00b7 token mc-20261007-fq450to1"
+    },
+    {
+      "scene": "send",
+      "index": 2,
+      "start": 47.857,
+      "end": 51.967,
+      "text": "Then exactly one send_email call \u2014 approved via --approve-send by the operator."
+    },
+    {
+      "scene": "send",
+      "index": 3,
+      "start": 52.267,
+      "end": 54.589,
+      "text": "Receipt: id d1658608\u2026 \u00b7 status queued \u00b7 undo_until 10:51:38.363Z."
+    },
+    {
+      "scene": "send",
+      "index": 4,
+      "start": 54.889,
+      "end": 58.43,
+      "text": "This video replays that run. No new email was sent."
+    },
+    {
+      "scene": "compare",
+      "index": 0,
+      "start": 59.53,
+      "end": 68.934,
+      "text": "Next, the runner searched for the token. In a self-probe that can match two messages: the sent copy and, if delivery works, the received copy."
+    },
+    {
+      "scene": "compare",
+      "index": 1,
+      "start": 69.234,
+      "end": 71.207,
+      "text": "So a match is only a candidate."
+    },
+    {
+      "scene": "compare",
+      "index": 2,
+      "start": 71.507,
+      "end": 77.278,
+      "text": "Every recorded read returned one message: d1658608\u2026 \u2014 the send receipt\u2019s own id, folder_id \"sent\"."
+    },
+    {
+      "scene": "compare",
+      "index": 3,
+      "start": 77.578,
+      "end": 81.316,
+      "text": "Reads at 10:52:50Z and 10:55:23Z: delivery_status \"delivered\", folder Sent, totalCount 1."
+    },
+    {
+      "scene": "compare",
+      "index": 4,
+      "start": 81.616,
+      "end": 83.717,
+      "text": "That proves the outgoing leg only."
+    },
+    {
+      "scene": "compare",
+      "index": 5,
+      "start": 84.017,
+      "end": 86.432,
+      "text": "No distinct incoming copy was observed."
+    },
+    {
+      "scene": "retraction",
+      "index": 0,
+      "start": 87.532,
+      "end": 89.645,
+      "text": "The runner\u2019s own verdict got this wrong."
+    },
+    {
+      "scene": "retraction",
+      "index": 1,
+      "start": 89.945,
+      "end": 92.848,
+      "text": "Its log called the Sent row \u201cthe arrived probe\u201d \u2014 folder_id \"sent\", delivery_status \"queued\"."
+    },
+    {
+      "scene": "retraction",
+      "index": 2,
+      "start": 93.148,
+      "end": 98.244,
+      "text": "It reported \u201cdegraded \u2014 round-trip 6.5s\u201d from the date field: a record date, not a receipt."
+    },
+    {
+      "scene": "retraction",
+      "index": 3,
+      "start": 98.544,
+      "end": 100.054,
+      "text": "That result is withdrawn \u2014 never inbox proof."
+    },
+    {
+      "scene": "retraction",
+      "index": 4,
+      "start": 100.354,
+      "end": 104.58,
+      "text": "The matcher now rejects the send receipt\u2019s own id, Sent/Outbox and queued, and requires an inbound marker."
+    },
+    {
+      "scene": "retraction",
+      "index": 5,
+      "start": 104.88,
+      "end": 107.782,
+      "text": "That fix was only tested on a synthetic case \u2014 not provider evidence."
+    },
+    {
+      "scene": "verdict",
+      "index": 0,
+      "start": 108.882,
+      "end": 115.825,
+      "text": "Authoritative: OUTBOUND DELIVERED \u00b7 INBOUND NOT OBSERVED \u00b7 ROUND-TRIP LATENCY UNAVAILABLE."
+    },
+    {
+      "scene": "verdict",
+      "index": 1,
+      "start": 116.125,
+      "end": 120.212,
+      "text": "inbound_message_id: null \u00b7 round_trip_latency: null"
+    },
+    {
+      "scene": "verdict",
+      "index": 2,
+      "start": 120.512,
+      "end": 123.031,
+      "text": "Not healthy \u2014 and not reported as healthy."
+    },
+    {
+      "scene": "verdict",
+      "index": 3,
+      "start": 123.331,
+      "end": 129.252,
+      "text": "The skill\u2019s rule \u2014 which that verdict broke: \u201cNever claim the probe arrived on the basis of a send success or a pending state.\u201d"
+    },
+    {
+      "scene": "end",
+      "index": 0,
+      "start": 130.152,
+      "end": 134.68,
+      "text": "Open for review: github.com/Nudgen-Marketing/mermail-skills/pull/498"
+    }
+  ],
+  "duration": 137.88
+}

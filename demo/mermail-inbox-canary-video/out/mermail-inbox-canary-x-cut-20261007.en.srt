@@ -1,0 +1,127 @@
+1
+00:00:01,000 --> 00:00:04,669
+An agent needs one answer before it shares its email address.
+
+2
+00:00:04,969 --> 00:00:08,324
+Does this mailbox actually deliver mail, end to end?
+
+3
+00:00:08,624 --> 00:00:12,409
+The Mermail Inbox Canary skill answers with one tagged probe.
+
+4
+00:00:12,709 --> 00:00:16,076
+Here is a real run — where the round trip could not be verified.
+
+5
+00:00:16,376 --> 00:00:17,456
+The request:
+
+6
+00:00:17,756 --> 00:00:23,758
+“Use Mermail to prove my agent mailbox can send and receive mail before I hand the address to a service.”
+
+7
+00:00:24,858 --> 00:00:28,445
+The captured runner log shows a real hosted Mermail MCP session.
+
+8
+00:00:28,745 --> 00:00:32,495
+server mermail 1.0.0 · protocol 2025-06-18 · catalog: 94 tools
+
+9
+00:00:32,795 --> 00:00:35,698
+send_email is present, which the probe needs.
+
+10
+00:00:35,998 --> 00:00:41,559
+list_workspaces + list_mailboxes selected tokenjunkielabs@mermail.app (public_id e48c62aa…).
+
+11
+00:00:42,659 --> 00:00:44,644
+The probe plan is journaled first.
+
+12
+00:00:44,944 --> 00:00:47,557
+planned_send_at 2026-10-07T10:51:25.521Z · token mc-20261007-fq450to1
+
+13
+00:00:47,857 --> 00:00:51,967
+Then exactly one send_email call — approved via --approve-send by the operator.
+
+14
+00:00:52,267 --> 00:00:54,589
+Receipt: id d1658608… · status queued · undo_until 10:51:38.363Z.
+
+15
+00:00:54,889 --> 00:00:58,430
+This video replays that run. No new email was sent.
+
+16
+00:00:59,530 --> 00:01:08,934
+Next, the runner searched for the token. In a self-probe that can match two messages: the sent copy and, if delivery works, the received copy.
+
+17
+00:01:09,234 --> 00:01:11,207
+So a match is only a candidate.
+
+18
+00:01:11,507 --> 00:01:17,278
+Every recorded read returned one message: d1658608… — the send receipt’s own id, folder_id "sent".
+
+19
+00:01:17,578 --> 00:01:21,316
+Reads at 10:52:50Z and 10:55:23Z: delivery_status "delivered", folder Sent, totalCount 1.
+
+20
+00:01:21,616 --> 00:01:23,717
+That proves the outgoing leg only.
+
+21
+00:01:24,017 --> 00:01:26,432
+No distinct incoming copy was observed.
+
+22
+00:01:27,532 --> 00:01:29,645
+The runner’s own verdict got this wrong.
+
+23
+00:01:29,945 --> 00:01:32,848
+Its log called the Sent row “the arrived probe” — folder_id "sent", delivery_status "queued".
+
+24
+00:01:33,148 --> 00:01:38,244
+It reported “degraded — round-trip 6.5s” from the date field: a record date, not a receipt.
+
+25
+00:01:38,544 --> 00:01:40,054
+That result is withdrawn — never inbox proof.
+
+26
+00:01:40,354 --> 00:01:44,580
+The matcher now rejects the send receipt’s own id, Sent/Outbox and queued, and requires an inbound marker.
+
+27
+00:01:44,880 --> 00:01:47,782
+That fix was only tested on a synthetic case — not provider evidence.
+
+28
+00:01:48,882 --> 00:01:55,825
+Authoritative: OUTBOUND DELIVERED · INBOUND NOT OBSERVED · ROUND-TRIP LATENCY UNAVAILABLE.
+
+29
+00:01:56,125 --> 00:02:00,212
+inbound_message_id: null · round_trip_latency: null
+
+30
+00:02:00,512 --> 00:02:03,031
+Not healthy — and not reported as healthy.
+
+31
+00:02:03,331 --> 00:02:09,252
+The skill’s rule — which that verdict broke: “Never claim the probe arrived on the basis of a send success or a pending state.”
+
+32
+00:02:10,152 --> 00:02:14,680
+Open for review: github.com/Nudgen-Marketing/mermail-skills/pull/498

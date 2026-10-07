@@ -1,0 +1,283 @@
+{
+  "schema": "mermail-canary-video-manifest/1",
+  "generated_utc": "2026-10-07T12:42:08+00:00",
+  "output": {
+    "file": "mermail-inbox-canary-demo-20261007.mp4",
+    "bytes": 23793578,
+    "sha256": "7d618080b14da2e7c4efd6028ac64e78e44f80d89d5199faeec62afeae742733",
+    "duration_s": 291.9,
+    "container": "mov,mp4,m4a,3gp,3g2,mj2",
+    "bit_rate": 652102,
+    "streams": [
+      {
+        "index": 0,
+        "codec_type": "video",
+        "codec_name": "h264",
+        "profile": "High",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "bit_rate": "466643",
+        "duration": "291.900000",
+        "language": "und"
+      },
+      {
+        "index": 1,
+        "codec_type": "audio",
+        "codec_name": "aac",
+        "profile": "LC",
+        "r_frame_rate": "0/0",
+        "sample_rate": "48000",
+        "channels": 2,
+        "bit_rate": "176471",
+        "duration": "291.900000",
+        "language": "eng"
+      },
+      {
+        "index": 2,
+        "codec_type": "subtitle",
+        "codec_name": "mov_text",
+        "r_frame_rate": "0/0",
+        "bit_rate": "111",
+        "duration": "285.275000",
+        "language": "eng"
+      }
+    ]
+  },
+  "companion_files": {
+    "mermail-inbox-canary-demo-20261007-poster.jpg": {
+      "bytes": 204920,
+      "sha256": "cea6251bcca6cc2c45a02adb95a98f3de739208f55b71127b879d76ff91993e9"
+    },
+    "mermail-inbox-canary-demo-20261007.en.srt": {
+      "bytes": 5249,
+      "sha256": "24f1cec258d4b845b6f16c1017e1d6f88da5b2eafb993e08e2595313f6922011"
+    },
+    "mermail-inbox-canary-demo-20261007.en.vtt": {
+      "bytes": 5143,
+      "sha256": "c231423c47c342a745979d04fefc2324e87ff4805b7a262ce6161efe1fd6186a"
+    },
+    "mermail-inbox-canary-demo-20261007.timeline.json": {
+      "bytes": 10626,
+      "sha256": "26faa9273de5d8cdec5a6e5bf679e77a6411482fa982ba1f4208ac9bdece65aa"
+    }
+  },
+  "render": {
+    "method": "deterministic HTML scenes (src/video.html) seeked per frame in headless Chromium via Playwright, JPEG frames -> libx264; Piper TTS narration; captions burned in + soft mov_text track",
+    "provider_calls_made_by_render": 0,
+    "emails_sent_by_render": 0,
+    "voice": {
+      "model": "en_US-joe-medium.onnx",
+      "sha256": "58afce0321b8d9c46d7cdf9c16500cc55a793b4220212dba6b70fb788b3baf06",
+      "license": "CC0 (rhasspy/piper-voices en_US-joe-medium MODEL_CARD)"
+    },
+    "fonts": "Inter, JetBrains Mono (SIL OFL 1.1; licenses in src/fonts)",
+    "source_sha256": {
+      "build.sh": "2dbc48eea2dbfdae23b95a9e824e37eb03d036cfaeef164a77c38d14bcaec129",
+      "build_audio.py": "d760fe2b2df4f726c98cf21ea9c891ebe9a5455359f743ac9e624df829f17286",
+      "evidence.json": "2c6d83ad4246bf03f56c7bcd9d990a759a82fa2d1cf31611a6e1eb735968d115",
+      "fonts/OFL-Inter.txt": "8c8fa881d9091ee315d2c80d207bb73afd4e90a66c9782ca445c5642f25db6dc",
+      "fonts/OFL-JetBrainsMono.txt": "bb1c26eb6fe1839e3759548777c8a35b9495ce4878a4b833b1b63d43ff313a4b",
+      "fonts/inter-400.woff2": "dd05e326cf8eac3b55acecf29c842ed73e6e6dd06491cf47f7e8800680ab3e33",
+      "fonts/inter-500.woff2": "b0e7558f4710a1e255b93e3deefe3aebb19f3bb41c150f685a74d3b1a1c79e87",
+      "fonts/inter-600.woff2": "62553d159189834af73c9a6264704be5b2bee9a08da66a14768d8e5c6ffd2cdb",
+      "fonts/inter-700.woff2": "aac638f7503cebb084ec494cf00f75f7d8260d50c2f4e7820bccabba09626a3a",
+      "fonts/inter-800.woff2": "e4a6db93190ce6c09e9871496bc63a2b7a59838435e8ec23996afd9619bc3883",
+      "fonts/jetbrains-mono-400.woff2": "7c53386f55c866c1b4c9309c4bcf74eda10896aab3a1780b0af5cc4976e27a27",
+      "fonts/jetbrains-mono-500.woff2": "4765dee1c0be507cde85c3de952bb24707b798f0e4002c360b9434d66c8bbc3c",
+      "fonts/jetbrains-mono-700.woff2": "ed8b8f71b22bf3b6e1ec1cf9b24dd999785aae33d6256950c1f86c97e423b6ef",
+      "make_manifest.py": "f9ab6c99cffce54ad62253d3b26f58fa0f1a93366f218d1b4f84f2b4aaed1c0c",
+      "narration-x.json": "2c2822600c46a8a03353740d069fd7cbc80d697deda770abc998fb8f33840b4f",
+      "narration.json": "1c1c2a46b2d6a5c8829f0037177f90d2fcc3483473e82dacbd2b26c7bb51a0f2",
+      "render.mjs": "a0d3c651867efb109e24da2ec8309ad1e9fd6c6c04eee6ba0c6e105066d4f604",
+      "video.html": "b03d74b4033834d8952b850864aac9ba9b223dfe38bc098705d76598c35a245b"
+    }
+  },
+  "skill_source": {
+    "pr": "https://github.com/Nudgen-Marketing/mermail-skills/pull/498",
+    "head": "0e9c800e0003a6a72391252f5f7ece6586cd5880",
+    "blobs": {
+      "skills/mermail-inbox-canary/SKILL.md": "fdb4b70747c5c7d1c1ca723003dc65872af46da0",
+      "skills/mermail-inbox-canary/references/tools.md": "fbab53bbd7d0f8ac16bee2a9550d05d5874c4274",
+      "skills/mermail-inbox-canary/references/security.md": "38d9d2b16ad2f9d93b4820e14225b09ebac7cfc0",
+      "tests/scenarios.json": "3df362b3344ccc3c24341f0673c9b71007c6df20"
+    }
+  },
+  "repo": {
+    "branch": "claude/mermail-inbox-canary-video-i2868c",
+    "base_commit": "fbb44549ce39acbd0474c46e443a9dba6408da1e"
+  },
+  "evidence": {
+    "schema": "mermail-canary-video-evidence/1",
+    "operation": "ACCOUNT-MERMAIL-INBOX-CANARY-20261007-01",
+    "provenance": {
+      "primary": "Captured run records delivered as Slack file F0C783829QB 'mermail-live-record-evidence-20261007.md' (stated 10095 bytes, sha256 f7c541837327322567a817b53c22529861218bc8932b7a011004b886f7822855) in internal thread C0BU51F1PL3/1790851459.659859, read with the Slack file tool on 2026-10-07",
+      "packet_contents": [
+        {
+          "file": "mermail-live-canary-authoritative-20261007.json",
+          "original_bytes": 2854,
+          "original_sha256": "2291a1793e841c82957eb806de0bed6ede62681a0d707010e13e3cf78a8d98f8"
+        },
+        {
+          "file": "mermail-live-canary-20261007.log",
+          "original_bytes": 2730,
+          "original_sha256": "f3ff6fdda1fb5f8c1cd1ac62b54681d2f749b4b8b41a2d8365d71291ecc75c46"
+        },
+        {
+          "file": "mermail-live-canary-20261007.journal.json",
+          "original_bytes": 717,
+          "original_sha256": "195fc165e6b8d828b22f5ae5165f7b9ad268dcfebaa74a083938c350d7b28f97"
+        },
+        {
+          "file": "mermail-inbound-reconciliation-20261007.json",
+          "original_bytes": 2253,
+          "original_sha256": "64f4473ae6b8e3c5c0b53b0f62cd88bd50129e8e4edef7381903102d473b6f15"
+        }
+      ],
+      "corroborating": "Owner task brief (2026-10-07) and Root factpack, Slack C0BU51F1PL3 ts 1791373831.283469 / correction ts 1791371450.965899",
+      "raw_files_read_by_this_render": true,
+      "rendering_note": "Record cards are typeset excerpts of the captured files (verbatim fragments; some log date prefixes shortened and long lines wrapped, marked on screen). Not screenshots. The render made no provider calls.",
+      "skill_source": "Nudgen-Marketing/mermail-skills PR #498, head 0e9c800e0003a6a72391252f5f7ece6586cd5880 (skills/mermail-inbox-canary/*)",
+      "verification": {
+        "packet_text_view": "Slack file-tool text view reconstructs to 10080 bytes (sha256 63babe3a3fea7de0a0036e84d4f5e9c04f0086e1c42b9dfb8b29a495c009be3a); the stated packet values (10095 bytes, sha256 f7c54183…) were not reproducible from the text view (line-ending differences).",
+        "embedded_records": "All four embedded records, extracted from the text view, reproduce their stated original byte counts and sha256 exactly: authoritative JSON 2854 B / 2291a179…, log 2730 B / f3ff6fdd… (CRLF line endings), journal 717 B / 195fc165…, reconciliation 2253 B / 64f4473a…. Verified in the render session on 2026-10-07."
+      }
+    },
+    "server": {
+      "name": "mermail",
+      "version": "1.0.0",
+      "protocol": "2025-06-18",
+      "endpoint": "https://console.mermail.app/mcp",
+      "catalog": "full",
+      "tool_count": 94,
+      "send_email_present": true,
+      "auth": "authenticated hosted MCP session (credential values withheld)",
+      "endpoint_source": "skill documentation (SKILL.md / references/tools.md full-catalog URL); not shown in the captured log"
+    },
+    "workspace_id": "cmuxyyp7r02o2pi01rbjjeu4r",
+    "mailbox": {
+      "email": "tokenjunkielabs@mermail.app",
+      "public_id": "e48c62aa-88e2-48be-8233-b01626e53d85",
+      "state": "ready"
+    },
+    "runner": {
+      "node": "v24.19.0",
+      "sha256": "6cc9c032e1f34ec77872170bfaed682af038ccc7ea9bc64adfaff0df64297e71"
+    },
+    "probe": {
+      "token": "mc-20261007-fq450to1",
+      "journaled_at_utc": "2026-10-07T10:51:25.521Z",
+      "from": "tokenjunkielabs@mermail.app",
+      "to": "tokenjunkielabs@mermail.app",
+      "subject": "mermail-canary mc-20261007-fq450to1",
+      "idempotencyKey": "mc-20261007-fq450to1",
+      "mailboxId": "e48c62aa-88e2-48be-8233-b01626e53d85"
+    },
+    "send_receipt": {
+      "id": "d1658608-52ce-4213-9886-f5c70a93efd3",
+      "status": "queued",
+      "undo_until_utc": "2026-10-07T10:51:38.363Z",
+      "send_count": 1,
+      "sent_at_utc": "2026-10-07T10:51:26.827Z"
+    },
+    "later_readback": {
+      "id": "d1658608-52ce-4213-9886-f5c70a93efd3",
+      "status": "delivered",
+      "folder_id": "sent",
+      "folder_name": "Sent"
+    },
+    "search": {
+      "window": "bounded; recorded reads at 10:51:32Z, 10:52:50.050Z and 10:55:23.492Z (brief: bounded ~3 min searches)",
+      "candidates_found": [
+        "d1658608-52ce-4213-9886-f5c70a93efd3 (same outgoing message, folder_id sent)"
+      ],
+      "distinct_incoming_copy": false
+    },
+    "verdict": {
+      "outbound": "DELIVERED",
+      "inbound": "NOT OBSERVED",
+      "round_trip_latency": "UNAVAILABLE",
+      "healthy": false
+    },
+    "retracted": {
+      "claim": "early runner result 'degraded, 6.5 s'",
+      "reason": "matched the outgoing SENT row (same id as the send receipt); must not be used as inbox proof"
+    },
+    "matcher_repair": {
+      "rule": "reject the send receipt's own id, sent/outbox folders and queued status; require an inbound marker (Source C wording)",
+      "evidence_level": "exercised on a synthetic incoming case only; not provider proof"
+    },
+    "derived": {
+      "send_ack_after_planned_s": 1.306,
+      "undo_window_after_ack_s": 11.536,
+      "retracted_6_5s_is_date_minus_sent_at_s": 6.536,
+      "undo_until_after_planned_s": 12.842
+    },
+    "not_claimed": [
+      "any incoming message id",
+      "any arrival timestamp",
+      "any round-trip latency figure",
+      "a healthy verdict",
+      "any incoming-copy scan or authentication result (the shown scan_status/sender_authentication belong to the outgoing Sent row)",
+      "the operator's verbatim natural-language request (the record shows --approve-send; the on-screen prompt is the skill's scenario prompt)"
+    ],
+    "log": {
+      "init": "2026-10-07 10:51:23Z",
+      "connected": "2026-10-07 10:51:24Z",
+      "catalog_line": "catalog: 94 tools; send_email present as 'send_email'; idempotencyKey schema-declared: true",
+      "discovery_tools": [
+        "list_workspaces",
+        "list_mailboxes"
+      ],
+      "send_approval": "approved via --approve-send by the operator",
+      "poll_line": "[2026-10-07 10:51:32Z]   poll after +5s: candidates=1 total=1",
+      "get_email_line": "STEP 4 — get_email on the arrived probe (d1658608-52ce-4213-9886-f5c70a93efd3)",
+      "get_email_fields": {
+        "date": "2026-10-07T10:51:33.363Z",
+        "folder_id": "sent",
+        "delivery_status": "queued"
+      },
+      "raw_verdict_line": "VERDICT: degraded — round-trip 6.5s (provider field: date; header/record date, not a receipt)"
+    },
+    "observations": [
+      {
+        "at": "2026-10-07T10:51:32Z",
+        "source": "log STEP 3 search_emails poll +5s",
+        "result": "candidates=1 total=1"
+      },
+      {
+        "at": "2026-10-07T10:51:32Z",
+        "source": "log STEP 4 get_email",
+        "result": "id d1658608…, folder_id sent, delivery_status queued"
+      },
+      {
+        "at": "2026-10-07T10:52:50.050Z",
+        "source": "mermail-inbound-reconciliation-20261007.json",
+        "result": "totalCount 1: id d1658608…, folder_id sent, delivery_status delivered"
+      },
+      {
+        "at": "2026-10-07T10:55:23.492Z",
+        "source": "mermail-live-canary-authoritative-20261007.json",
+        "result": "totalCount 1: id d1658608…, folder_id sent, delivery_status delivered"
+      }
+    ],
+    "candidate_fields": {
+      "scan_status": null,
+      "sender_authentication": {
+        "status": "unknown",
+        "reason": "inbound_provider_unavailable"
+      },
+      "content_omitted": true
+    },
+    "authoritative_record": {
+      "observed_at": "2026-10-07T10:55:23.492Z",
+      "raw_runner_verdict": "degraded",
+      "authoritative_verdict": "no_inbound_delivery_observed_in_bounded_window",
+      "outbound_status": "delivered",
+      "inbound_message_id": null,
+      "round_trip_latency": null,
+      "reason": "Search matched the outgoing Sent row; no distinct incoming message was observed."
+    }
+  }
+}

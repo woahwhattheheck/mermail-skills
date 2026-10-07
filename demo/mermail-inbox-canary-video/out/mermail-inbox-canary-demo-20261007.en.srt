@@ -1,0 +1,163 @@
+1
+00:00:01,600 --> 00:00:07,823
+Before an agent hands out its email address for verification codes or receipts, it needs to know one thing.
+
+2
+00:00:08,203 --> 00:00:11,593
+Does this mailbox actually deliver mail, end to end?
+
+3
+00:00:11,973 --> 00:00:18,823
+The Mermail Inbox Canary skill answers that with one tagged probe and a verdict grounded only in real tool results.
+
+4
+00:00:19,203 --> 00:00:26,157
+This is a real run against hosted Mermail. The round trip could not be verified — and the runner’s own verdict had to be withdrawn.
+
+5
+00:00:26,537 --> 00:00:28,732
+The request it serves looks like this:
+
+6
+00:00:29,112 --> 00:00:35,126
+“Use Mermail to prove my agent mailbox can send and receive mail before I hand the address to a service.”
+
+7
+00:00:36,726 --> 00:00:42,113
+The run used the real hosted Mermail MCP server through an authenticated session.
+
+8
+00:00:42,493 --> 00:00:52,326
+Captured log: server mermail 1.0.0 · protocol 2025-06-18 · catalog: 94 tools.
+
+9
+00:00:52,706 --> 00:01:00,589
+send_email is present, which the probe needs. The agent-inbox profile lacks it, so the skill never runs a canary there.
+
+10
+00:01:00,969 --> 00:01:08,353
+list_workspaces + list_mailboxes resolved one ready owner inbox: tokenjunkielabs@mermail.app (public_id e48c62aa…).
+
+11
+00:01:09,953 --> 00:01:17,361
+Before anything is sent, the probe plan is journaled: a unique token, and the same mailbox as sender and recipient.
+
+12
+00:01:17,741 --> 00:01:23,731
+planned_send_at 2026-10-07T10:51:25.521Z · token mc-20261007-fq450to1
+
+13
+00:01:24,111 --> 00:01:29,417
+Then exactly one send_email call — approved via --approve-send by the operator.
+
+14
+00:01:29,797 --> 00:01:39,944
+sent_at 10:51:26.827Z (+1.306 s after the plan) · id d1658608… · status queued · undo_until 10:51:38.363Z.
+
+15
+00:01:40,324 --> 00:01:45,282
+Everything in this video comes from that one recorded run. Nothing was sent again to make it.
+
+16
+00:01:46,982 --> 00:01:54,249
+Next, the runner ran one bounded search_emails poll on the receiving mailbox: metadata only, held messages included.
+
+17
+00:01:54,629 --> 00:01:58,937
+Poll after +5 s: candidates=1 total=1.
+
+18
+00:01:59,317 --> 00:02:04,959
+But a search hit is only a candidate. It still has to pass validation before it counts as an arrival.
+
+19
+00:02:06,459 --> 00:02:16,188
+Here is the catch with a self-probe: the token can appear on two different messages — the copy that was sent and, if delivery works, the copy that is received.
+
+20
+00:02:16,568 --> 00:02:19,065
+Searching by token alone can surface both.
+
+21
+00:02:19,445 --> 00:02:27,026
+Every recorded read returned the same single message: d1658608… — the send receipt’s own id, folder_id "sent".
+
+22
+00:02:27,406 --> 00:02:34,697
+Reads at 10:52:50Z and 10:55:23Z: delivery_status "delivered", folder Sent, totalCount 1.
+
+23
+00:02:35,077 --> 00:02:38,734
+That proves the outgoing leg. It proves nothing about arrival.
+
+24
+00:02:39,114 --> 00:02:41,668
+No distinct incoming copy was observed.
+
+25
+00:02:43,268 --> 00:02:46,473
+And this is exactly where the runner’s own verdict went wrong.
+
+26
+00:02:46,853 --> 00:02:52,959
+Its log called it “the arrived probe” — but the record says folder_id "sent", delivery_status "queued".
+
+27
+00:02:53,339 --> 00:03:01,884
+It reported “degraded — round-trip 6.5s” from the date field: a record date, not a receipt.
+
+28
+00:03:02,264 --> 00:03:06,072
+That result is withdrawn, and it is never used as inbox proof.
+
+29
+00:03:06,452 --> 00:03:16,483
+The matcher was then tightened: it rejects the send receipt’s own id, Sent/Outbox folders and queued status, and requires an inbound marker.
+
+30
+00:03:16,863 --> 00:03:23,168
+That repair has only been exercised on a synthetic case, so it is not presented as provider evidence.
+
+31
+00:03:24,768 --> 00:03:30,875
+For this run: the token matches, but the id is the send receipt’s own, and the folder is Sent.
+
+32
+00:03:31,255 --> 00:03:38,279
+sender_authentication: unknown (reason: inbound_provider_unavailable) · scan_status: null.
+
+33
+00:03:38,659 --> 00:03:43,697
+Judged by those rules: zero validating candidates inside the bounded window.
+
+34
+00:03:45,397 --> 00:03:53,257
+Authoritative: OUTBOUND DELIVERED · INBOUND NOT OBSERVED · ROUND-TRIP LATENCY UNAVAILABLE.
+
+35
+00:03:53,637 --> 00:03:59,257
+In the record: inbound_message_id null · round_trip_latency null.
+
+36
+00:03:59,637 --> 00:04:02,957
+This is not a healthy result, and it is not reported as one.
+
+37
+00:04:03,337 --> 00:04:11,708
+The skill’s own rule — which the runner’s verdict broke: “Never claim the probe arrived on the basis of a send success or a pending state.”
+
+38
+00:04:13,508 --> 00:04:23,179
+This summary, composed from the records, names the mailbox and its public_id, the probe token, and the outgoing message id.
+
+39
+00:04:23,559 --> 00:04:30,362
+The skill never deletes or moves the probe automatically — its id is reported so the owner can handle it.
+
+40
+00:04:30,742 --> 00:04:38,347
+The stage that could not be verified is receive. Any re-check needs a fresh, approved probe — never an automatic resend.
+
+41
+00:04:38,727 --> 00:04:45,275
+The skill is open for review: github.com/Nudgen-Marketing/mermail-skills/pull/498
