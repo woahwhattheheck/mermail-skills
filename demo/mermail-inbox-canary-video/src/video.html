@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mermail Inbox Canary — demo render</title>
+<style>
+@font-face{font-family:"InterV";font-weight:400;src:url(fonts/inter-400.woff2) format("woff2")}
+@font-face{font-family:"InterV";font-weight:500;src:url(fonts/inter-500.woff2) format("woff2")}
+@font-face{font-family:"InterV";font-weight:600;src:url(fonts/inter-600.woff2) format("woff2")}
+@font-face{font-family:"InterV";font-weight:700;src:url(fonts/inter-700.woff2) format("woff2")}
+@font-face{font-family:"InterV";font-weight:800;src:url(fonts/inter-800.woff2) format("woff2")}
+@font-face{font-family:"MonoV";font-weight:400;src:url(fonts/jetbrains-mono-400.woff2) format("woff2")}
+@font-face{font-family:"MonoV";font-weight:500;src:url(fonts/jetbrains-mono-500.woff2) format("woff2")}
+@font-face{font-family:"MonoV";font-weight:700;src:url(fonts/jetbrains-mono-700.woff2) format("woff2")}
+:root{
+  --bg:#090D12; --panel:#101720; --panel2:#0C1219; --line:#1E2935; --line2:#2A3847;
+  --text:#E9EFF6; --muted:#93A3B6; --dim:#5E6E81;
+  --mint:#3DDC97; --mint-d:rgba(61,220,151,.12);
+  --amber:#FFB547; --amber-d:rgba(255,181,71,.12);
+  --red:#FF6B6B; --red-d:rgba(255,107,107,.12);
+  --blue:#71B7FF; --blue-d:rgba(113,183,255,.12);
+  --violet:#A895FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{font-family:"InterV","Inter",sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1,"cv11" 1}
+.mono{font-family:"MonoV","DejaVu Sans Mono",monospace}
+#stage{position:absolute;inset:0;overflow:hidden}
+#bg{position:absolute;inset:-200px;background:
+  radial-gradient(900px 600px at var(--gx,30%) var(--gy,20%),rgba(61,220,151,.07),transparent 70%),
+  radial-gradient(900px 700px at var(--hx,80%) var(--hy,90%),rgba(113,183,255,.06),transparent 70%)}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(1200px 800px at 50% 45%,#000 30%,transparent 85%)}
+/* chrome */
+#top{position:absolute;left:0;right:0;top:0;height:92px;display:flex;align-items:center;padding:0 64px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(9,13,18,.95),rgba(9,13,18,.6))}
+.brand{display:flex;align-items:center;gap:14px;font-weight:700;font-size:24px;letter-spacing:-.01em}
+.brand .tj{width:40px;height:40px;border-radius:10px;background:var(--mint);color:#06110C;display:grid;place-items:center;font-weight:800;font-size:18px;letter-spacing:-.02em}
+.brand .sep{width:1px;height:28px;background:var(--line2);margin:0 6px}
+.brand .prod{font-weight:600;color:var(--muted)}
+#steps{display:flex;gap:6px;margin-left:auto;margin-right:auto}
+.step{display:flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;font-size:17px;font-weight:600;color:var(--dim);border:1px solid transparent}
+.step b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:#16202B;color:var(--dim)}
+.step.on{color:var(--text);border-color:var(--line2);background:#121B25}
+.step.on b{background:var(--mint);color:#06110C}
+.step.done{color:var(--muted)}
+.step.done b{background:#1B3A2E;color:var(--mint)}
+#runstamp{font-size:16px;color:var(--muted);text-align:right;line-height:1.35}
+#runstamp .mono{color:var(--text);font-size:16px}
+#label{position:absolute;right:64px;top:106px;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:10px}
+#label i{width:8px;height:8px;border-radius:2px;background:var(--violet);display:inline-block}
+#cap{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);width:max-content;max-width:1700px;padding:14px 30px;border-radius:14px;background:rgba(5,8,12,.80);border:1px solid rgba(255,255,255,.06);font-size:32px;line-height:1.36;font-weight:500;text-align:center;color:#F4F7FB;white-space:normal}
+/* scenes */
+.scene{position:absolute;left:0;right:0;top:92px;bottom:180px;opacity:0}
+.k{opacity:0;will-change:transform,opacity}
+.h1{font-size:76px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.h2{font-size:52px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.kick{font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
+.card{position:absolute;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:22px;padding:30px 34px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.ct{font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.ct .dot{width:9px;height:9px;border-radius:50%;background:var(--mint)}
+.src{font-size:15px;color:var(--dim);font-weight:500;letter-spacing:.02em;margin-top:18px}
+.row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row .kk{width:220px;flex:none;font-size:20px;color:var(--muted);font-weight:500}
+.row .vv{font-size:25px;font-weight:600}
+.row .vv.mono{font-size:23px;font-weight:500}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:18px;font-weight:700;letter-spacing:.04em}
+.chip.mint{background:var(--mint-d);color:var(--mint);border:1px solid rgba(61,220,151,.35)}
+.chip.amber{background:var(--amber-d);color:var(--amber);border:1px solid rgba(255,181,71,.35)}
+.chip.red{background:var(--red-d);color:var(--red);border:1px solid rgba(255,107,107,.35)}
+.chip.blue{background:var(--blue-d);color:var(--blue);border:1px solid rgba(113,183,255,.35)}
+.chip.grey{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line2)}
+.tool{font-family:"MonoV",monospace;font-size:21px;padding:8px 16px;border-radius:10px;background:#0E1620;border:1px solid var(--line2);color:var(--blue)}
+pre.code{font-family:"MonoV",monospace;font-size:23px;line-height:1.5;color:#C9D6E3}
+.code .p{color:var(--dim)} .code .s{color:#9BE7C4} .code .n{color:var(--amber)} .code .key{color:var(--blue)}
+.stamp{position:absolute;padding:10px 22px;border:3px solid;border-radius:12px;font-weight:800;font-size:28px;letter-spacing:.08em;text-transform:uppercase}
+.caret{display:inline-block;width:3px;height:1.05em;background:var(--mint);vertical-align:-.15em;margin-left:3px}
+.big{font-size:150px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.hl{color:#fff;font-weight:700} .hlm{color:var(--mint);font-weight:700} .hla{color:var(--amber);font-weight:700} .hlr{color:var(--red);font-weight:700}
+.hlbox{outline:2px solid rgba(255,181,71,.7);outline-offset:3px;border-radius:4px}
+.obs{display:flex;align-items:center;gap:18px;padding:12px 0;border-top:1px solid var(--line);font-size:21px}
+.obs:first-of-type{border-top:0}
+.obs .t{width:130px;color:var(--text);font-size:20px} .obs .w{width:230px;color:var(--muted)} .obs .v{color:var(--amber);font-size:20px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div><div id="grid"></div>
+
+  <!-- ============ SCENE: intro ============ -->
+  <section class="scene" data-scene="intro" data-label-at="c4" data-label="Prompt shown is the skill’s scenario prompt · tests/scenarios.json · PR #498">
+    <div class="k" data-at="0.15" data-out="c1-0.5" data-fx="up" style="position:absolute;left:160px;top:170px;width:1500px">
+      <div class="kick">Real run · hosted Mermail MCP · 7 Oct 2026</div>
+      <div class="h1" style="margin-top:26px;font-size:104px">Mermail Inbox Canary</div>
+      <div style="margin-top:28px;font-size:38px;color:var(--muted);font-weight:500;max-width:1300px;line-height:1.3">One tagged probe. A verdict grounded only in real tool results — including when the round trip <span style="color:var(--amber)">cannot be verified</span>.</div>
+    </div>
+    <div class="k" data-at="0.6" data-out="c1-0.5" data-fx="fade" style="position:absolute;left:160px;top:640px;display:flex;gap:14px;align-items:center">
+      <span style="font-size:18px;font-weight:600;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-right:6px">Tools the skill composes</span>
+      <span class="tool">list_mailboxes</span><span class="tool">send_email</span><span class="tool">search_emails</span><span class="tool">get_email</span>
+    </div>
+
+    <!-- question -->
+    <div class="k" data-at="c1-0.2" data-out="c4-0.5" data-fx="up" style="position:absolute;left:0;right:0;top:90px;text-align:center">
+      <div class="h2" style="font-size:64px">Can it <span style="color:var(--mint)">send</span>? Easy to show.<br>Can it <span style="color:var(--amber)">receive</span>? That needs proof.</div>
+    </div>
+    <svg class="k" data-at="c1+0.6" data-out="c4-0.5" data-fx="fade" width="1920" height="420" style="position:absolute;left:0;top:330px">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3DDC97"/></marker>
+        <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FFB547"/></marker>
+      </defs>
+      <g font-family="InterV" font-weight="700">
+        <rect x="470" y="140" width="300" height="130" rx="22" fill="#101720" stroke="#2A3847"/>
+        <text x="620" y="198" fill="#E9EFF6" font-size="28" text-anchor="middle">Agent mailbox</text>
+        <text x="620" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">sender</text>
+        <rect x="1150" y="140" width="300" height="130" rx="22" fill="#101720" stroke="#2A3847"/>
+        <text x="1300" y="198" fill="#E9EFF6" font-size="28" text-anchor="middle">Agent mailbox</text>
+        <text x="1300" y="236" fill="#93A3B6" font-size="20" font-weight="500" text-anchor="middle">recipient</text>
+        <path d="M780,170 C900,60 1020,60 1140,170" fill="none" stroke="#3DDC97" stroke-width="4" marker-end="url(#ah)"/>
+        <text x="960" y="72" fill="#3DDC97" font-size="22" text-anchor="middle">outbound leg</text>
+        <path d="M1140,245 C1020,355 900,355 780,245" fill="none" stroke="#FFB547" stroke-width="4" stroke-dasharray="12 10" marker-end="url(#ah2)"/>
+        <text x="960" y="380" fill="#FFB547" font-size="22" text-anchor="middle">inbound leg — must be observed</text>
+      </g>
+    </svg>
+
+    <!-- prompt card -->
+    <div class="k card" data-at="c4-0.1" data-fx="up" style="left:210px;top:110px;width:1500px;padding:44px 52px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>The request</div>
+      <div style="font-size:46px;font-weight:600;line-height:1.32;letter-spacing:-.01em;min-height:186px"><span class="k" data-at="c5" data-fx="type" data-dur="c5:0.92" data-text="“Use Mermail to prove my agent mailbox can send and receive mail before I hand the address to a service.”"></span></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:34px">
+        <span class="chip grey">routes to</span><span class="tool" style="color:var(--mint)">mermail-inbox-canary</span>
+        <span class="chip blue k" data-at="c5@0.95" data-fx="fade">approval: external-effect · one send</span>
+      </div>
+      <div class="src">Scenario prompt from tests/scenarios.json in PR #498 (head 0e9c800) — shown as the representative request.</div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: connect ============ -->
+  <section class="scene" data-scene="connect" data-label="Typeset excerpt of captured log · mermail-live-canary-20261007.log · sha256 f3ff6fdd…">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 2 · Connect</div>
+      <div class="h2" style="margin-top:10px">Real hosted MCP, full catalog</div>
+    </div>
+    <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:1728px;padding:24px 34px">
+      <div class="ct"><span class="dot" style="background:var(--violet)"></span>Captured log · mermail-live-canary-20261007.log</div>
+<pre class="code log" style="font-size:19.5px;line-height:1.62"><span class="k" data-at="c0+0.6" data-fx="fade"><span class="p">[2026-10-07 10:51:23Z]</span> STEP 0 — initialize MCP session</span>
+<span class="k" data-at="c1" data-fx="fade"><span class="p">[2026-10-07 10:51:24Z]</span> connected. server: <b class="hl">mermail 1.0.0</b> protocol: <b class="hl">2025-06-18</b></span>
+<span class="k" data-at="c1@0.7" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> catalog: <b class="hl">94 tools</b>; <b class="hlm">send_email present as 'send_email'</b>; idempotencyKey schema-declared: true</span>
+<span class="k" data-at="c3" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> STEP 1 — resolve workspace + mailboxes (<span class="key">list_workspaces</span>, <span class="key">list_mailboxes</span>)</span>
+<span class="k" data-at="c3@0.45" data-fx="fade"><span class="p">[2026-10-07 10:51:25Z]</span> mailbox selected: <b class="hl">tokenjunkielabs@mermail.app</b> (public_id e48c62aa-88e2-48be-8233-b01626e53d85)</span></pre>
+    </div>
+    <div class="k card" data-at="c2@0.5" data-fx="up" style="left:96px;top:500px;width:840px;padding:24px 30px">
+      <div class="ct"><span class="dot" style="background:var(--red)"></span>?profile=agent-inbox</div>
+      <div style="font-size:23px;line-height:1.45;color:var(--muted)">12 read/provision tools · <b style="color:var(--red)">no send_email</b> → a round-trip probe is impossible; the skill does not run a canary there.</div>
+      <div class="src" style="margin-top:12px">references/tools.md · PR #498</div>
+    </div>
+    <div class="k card" data-at="c3+0.3" data-fx="up" style="left:984px;top:500px;width:840px;padding:24px 30px">
+      <div class="ct"><span class="dot"></span>Selected mailbox</div>
+      <div style="font-size:30px;font-weight:700" class="mono">tokenjunkielabs@mermail.app</div>
+      <div class="mono" style="font-size:20px;margin-top:8px;color:var(--muted)">public_id e48c62aa-88e2-48be-8233-b01626e53d85</div>
+      <div style="display:flex;gap:12px;margin-top:14px;align-items:center"><span class="chip mint">● ready</span><span style="font-size:17px;color:var(--dim)">workspace</span><span class="mono" style="font-size:17px;color:var(--muted)">cmuxyyp7r02o2pi01rbjjeu4r</span></div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: send ============ -->
+  <section class="scene" data-scene="send" data-label="Typeset excerpts of captured journal + log · journal sha256 195fc165… · log sha256 f3ff6fdd…">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 3 · One controlled send</div>
+      <div class="h2" style="margin-top:10px">Journal first, then exactly one <span class="mono" style="color:var(--blue);font-size:46px">send_email</span></div>
+    </div>
+    <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:900px;padding:24px 32px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>Journal · mermail-live-canary-20261007.journal.json</div>
+<pre class="code" style="font-size:19.5px;line-height:1.5"><span class="p">{</span> <span class="p">…</span>
+  <span class="key">"token"</span><span class="p">:</span> <span class="s">"mc-20261007-fq450to1"</span><span class="p">,</span>
+  <span class="key">"subject"</span><span class="p">:</span> <span class="s">"mermail-canary mc-20261007-fq450to1"</span><span class="p">,</span>
+  <span class="key">"from"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
+  <span class="key">"to"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
+  <span class="key">"mailboxId"</span><span class="p">:</span> <span class="s">"e48c62aa-88e2-48be-8233-b01626e53d85"</span><span class="p">,</span>
+  <span class="key">"idempotencyKey"</span><span class="p">:</span> <span class="s">"mc-20261007-fq450to1"</span><span class="p">,</span>
+  <span class="key">"planned_send_at"</span><span class="p">:</span> <span class="s hlbox k" data-at="c1" data-fx="fade">"2026-10-07T10:51:25.521Z"</span><span class="p">,</span>
+  <span class="key">"sent_at"</span><span class="p">:</span> <span class="s">"2026-10-07T10:51:26.827Z"</span><span class="p">,</span>
+  <span class="key">"send_result"</span><span class="p">: {</span>
+    <span class="key">"id"</span><span class="p">:</span> <span class="s">"d1658608-52ce-4213-9886-f5c70a93efd3"</span><span class="p">,</span>
+    <span class="key">"status"</span><span class="p">:</span> <span class="n">"queued"</span><span class="p">,</span>
+    <span class="key">"undo_until"</span><span class="p">:</span> <span class="s">"2026-10-07T10:51:38.363Z"</span>
+  <span class="p">}</span> <span class="p">…</span>
+<span class="p">}</span></pre>
+    </div>
+    <div class="k card" data-at="c2-0.2" data-fx="up" style="left:1036px;top:176px;width:788px;padding:24px 30px">
+      <div class="ct"><span class="dot" style="background:var(--amber)"></span>Captured log · step 2</div>
+<pre class="code" style="font-size:18px;line-height:1.55;white-space:pre-wrap"><span class="p">[10:51:25Z]</span> STEP 2 — <span class="key">send_email</span> probe (external effect; <b class="hlm">approved via --approve-send by the operator</b>)
+<span class="k" data-at="c3" data-fx="fade"><span class="p">[10:51:26Z]</span> send result: {"id":"<b class="hl">d1658608-52ce-4213-9886-f5c70a93efd3</b>","status":"<b class="hla">queued</b>","undo_until":"2026-10-07T10:51:38.363Z"}</span></pre>
+      <div class="src" style="margin-top:10px">date prefix shortened; lines wrapped</div>
+    </div>
+    <div class="k" data-at="c3+0.6" data-fx="fade" style="position:absolute;left:1036px;top:520px;width:788px;height:110px">
+      <div style="position:absolute;left:0;right:0;top:40px;height:3px;background:var(--line2)"></div>
+      <div class="k" data-at="c3+0.6" data-fx="grow" style="position:absolute;left:0;width:100%;top:40px;height:3px;background:linear-gradient(90deg,var(--blue),var(--amber));transform-origin:left"></div>
+      <div style="position:absolute;left:0;top:30px;width:22px;height:22px;border-radius:50%;background:var(--blue);transform:translateX(-50%)"></div>
+      <div style="position:absolute;left:10.2%;top:30px;width:22px;height:22px;border-radius:50%;background:var(--amber);transform:translateX(-50%)"></div>
+      <div style="position:absolute;right:0;top:30px;width:22px;height:22px;border-radius:50%;border:3px solid var(--amber);background:var(--bg);transform:translateX(50%)"></div>
+      <div class="mono" style="position:absolute;left:-10px;top:0;font-size:16px;color:var(--blue)">planned 10:51:25.521</div>
+      <div class="mono" style="position:absolute;left:6%;top:64px;font-size:16px;color:var(--amber)">sent_at +1.306 s after plan</div>
+      <div class="mono" style="position:absolute;right:-10px;top:0;font-size:16px;color:var(--amber)">undo_until 10:51:38.363</div>
+      <div class="mono" style="position:absolute;right:-10px;top:64px;font-size:16px;color:var(--muted)">+12.842 s after plan</div>
+    </div>
+    <div class="k" data-at="c4" data-fx="up" style="position:absolute;left:1036px;top:660px;display:flex;gap:12px;align-items:center"><span class="chip amber" style="font-size:20px;padding:9px 18px">send_email calls: 1</span><span style="font-size:20px;color:var(--muted)">not repeated for this video</span></div>
+  </section>
+
+  <!-- ============ SCENE: poll ============ -->
+  <section class="scene" data-scene="poll" data-label="Skill contract: SKILL.md @ 0e9c800 · log excerpt: mermail-live-canary-20261007.log">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 4 · Search &amp; validate</div>
+      <div class="h2" style="margin-top:10px">Bounded reads of the receiving mailbox</div>
+    </div>
+    <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:860px;padding:26px 36px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>search_emails · SKILL.md step 5 (contract)</div>
+<pre class="code"><span class="p">{</span>
+  <span class="key">"mailboxId"</span><span class="p">:</span> <span class="s">"TARGET_MAILBOX_PUBLIC_ID"</span><span class="p">,</span>
+  <span class="key">"query"</span><span class="p">: {</span>
+    <span class="key">"subject"</span><span class="p">:</span> <span class="s">"&lt;token&gt;"</span><span class="p">,</span>
+    <span class="key">"date_start"</span><span class="p">:</span> <span class="s">"&lt;probe window start ISO&gt;"</span><span class="p">,</span>
+    <span class="key">"include_held"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="key">"metadata_only"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="key">"agent_safe_content"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="key">"page"</span><span class="p">:</span> <span class="n">1</span><span class="p">,</span> <span class="key">"limit"</span><span class="p">:</span> <span class="n">10</span>
+  <span class="p">}</span>
+<span class="p">}</span></pre>
+    </div>
+    <div class="k card" data-at="c0@0.5" data-fx="up" style="left:1000px;top:176px;width:824px;padding:24px 30px">
+      <div class="ct"><span class="dot" style="background:var(--amber)"></span>Captured log · step 3</div>
+<pre class="code" style="font-size:18.5px;line-height:1.6;white-space:pre-wrap"><span class="p">[10:51:26Z]</span> STEP 3 — bounded <span class="key">search_emails</span> poll (metadata_only, include_held)
+<span class="k" data-at="c1" data-fx="fade"><span class="p">[10:51:32Z]</span>   poll after +5s: <b class="hla">candidates=1 total=1</b></span></pre>
+      <div class="src" style="margin-top:10px">date prefix shortened</div>
+    </div>
+    <div class="k" data-at="c2-0.1" data-fx="up" style="position:absolute;left:1000px;top:470px;width:824px;display:flex;align-items:center;gap:14px">
+      <div class="card" style="position:relative;padding:18px 22px;flex:1;text-align:center"><div style="font-size:24px;font-weight:700">search hit</div><div style="font-size:17px;color:var(--muted);margin-top:4px">candidate</div></div>
+      <div style="font-size:34px;color:var(--dim)">→</div>
+      <div class="card" style="position:relative;padding:18px 22px;flex:1;text-align:center;border-color:rgba(255,181,71,.5)"><div style="font-size:24px;font-weight:700;color:var(--amber)">validation</div><div style="font-size:17px;color:var(--muted);margin-top:4px">must pass</div></div>
+      <div style="font-size:34px;color:var(--dim)">→</div>
+      <div class="card" style="position:relative;padding:18px 22px;flex:1;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--mint)">arrival</div><div style="font-size:17px;color:var(--muted);margin-top:4px">only then</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: compare ============ -->
+  <section class="scene" data-scene="compare" data-label="Typeset excerpts of captured records · authoritative JSON sha256 2291a179… · reconciliation sha256 64f4473a…">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 4 · Sent vs. Inbox</div>
+      <div class="h2" style="margin-top:10px">Same token, two possible messages</div>
+    </div>
+    <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:860px;padding:24px 32px">
+      <div class="ct"><span class="dot"></span>Recorded search result · structuredContent</div>
+<pre class="code" style="font-size:19.5px;line-height:1.5"><span class="p">{</span> <span class="key">"emails"</span><span class="p">: [{</span>
+  <span class="key">"id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2+0.3" data-fx="fade">"d1658608-52ce-4213-9886-f5c70a93efd3"</span><span class="p">,</span>
+  <span class="key">"subject"</span><span class="p">:</span> <span class="s">"mermail-canary mc-20261007-fq450to1"</span><span class="p">,</span>
+  <span class="key">"sender"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
+  <span class="key">"recipient"</span><span class="p">:</span> <span class="s">"tokenjunkielabs@mermail.app"</span><span class="p">,</span>
+  <span class="key">"folder_id"</span><span class="p">:</span> <span class="s hlbox k" data-at="c2@0.7" data-fx="fade">"sent"</span><span class="p">,</span>
+  <span class="key">"delivery_status"</span><span class="p">:</span> <span class="s">"delivered"</span><span class="p">,</span>
+  <span class="key">"folder_name"</span><span class="p">:</span> <span class="s">"Sent"</span><span class="p">,</span> <span class="p">…</span>
+<span class="p">}],</span> <span class="key">"totalCount"</span><span class="p">:</span> <span class="n hlbox k" data-at="c3@0.8" data-fx="fade">1</span> <span class="p">}</span></pre>
+      <div class="k" data-at="c2+1.0" data-fx="fade" style="display:flex;gap:12px;margin-top:14px"><span class="chip mint">id = send receipt id</span><span class="chip grey">the outgoing copy</span></div>
+    </div>
+    <div class="k card" data-at="c0@0.6" data-fx="up" style="left:1000px;top:176px;width:824px;padding:24px 30px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>Every recorded read · same single message</div>
+      <div class="obs k" data-at="c2" data-fx="left"><span class="mono t">10:51:32Z</span><span class="w">poll +5 s</span><span class="mono v">total=1</span></div>
+      <div class="obs k" data-at="c2@0.3" data-fx="left"><span class="mono t">10:51:32Z</span><span class="w">get_email</span><span class="mono v">sent · queued</span></div>
+      <div class="obs k" data-at="c3" data-fx="left"><span class="mono t">10:52:50Z</span><span class="w">reconciliation</span><span class="mono v">sent · delivered · 1</span></div>
+      <div class="obs k" data-at="c3@0.45" data-fx="left"><span class="mono t">10:55:23Z</span><span class="w">authoritative</span><span class="mono v">sent · delivered · 1</span></div>
+    </div>
+    <div class="k card" data-at="c5" data-fx="pop" style="left:1000px;top:530px;width:824px;height:150px;padding:0;border:2px dashed rgba(255,181,71,.6);background:var(--amber-d);display:grid;place-items:center;text-align:center">
+      <div><div style="font-size:32px;font-weight:800;color:var(--amber);letter-spacing:.04em">INBOUND · NOT OBSERVED</div><div style="font-size:19px;color:var(--muted);margin-top:8px">no distinct incoming copy in any recorded read</div></div>
+    </div>
+    <div class="k" data-at="c4" data-fx="pop" style="position:absolute;left:96px;top:640px;display:flex;align-items:center;gap:14px"><span class="chip mint" style="font-size:22px;padding:9px 18px">✓ OUTBOUND DELIVERED</span><span style="font-size:19px;color:var(--muted)">proves the outgoing leg only</span></div>
+  </section>
+
+  <!-- ============ SCENE: retraction ============ -->
+  <section class="scene" data-scene="retraction" data-label="Typeset excerpt of captured log (original runner output) · matcher repair: synthetic check only">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick" style="color:var(--red)">Step 4 · A result that was withdrawn</div>
+      <div class="h2" style="margin-top:10px">Matching the Sent copy is not an arrival</div>
+    </div>
+    <div class="k card" data-at="c0+0.3" data-fx="up" style="left:96px;top:176px;width:1000px;height:470px;padding:24px 32px">
+      <div class="ct"><span class="dot" style="background:var(--red)"></span>Captured log · first runner pass</div>
+<pre class="code" style="font-size:18.5px;line-height:1.58;white-space:pre-wrap"><span class="k" data-at="c1" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> STEP 4 — <span class="key">get_email</span> on <b class="hlr">the arrived probe</b> (d1658608-52ce-4213-9886-f5c70a93efd3)</span><span class="k" data-at="c1@0.55" data-fx="fade" style="display:block"><span class="p">[10:51:32Z]</span> probe detail: {… "date":"2026-10-07T10:51:33.363Z", … <b class="hla">"folder_id":"sent","delivery_status":"queued"</b> …}</span><span class="k" data-at="c2" data-fx="fade" style="position:relative;display:block"><span class="p">[10:51:32Z]</span> VERDICT: <b class="hlr">degraded — round-trip 6.5s</b> (provider field: date; header/record date, not a receipt)<span class="k" data-at="c3-0.3" data-fx="grow" style="position:absolute;left:-6px;right:0;top:15px;height:4px;background:var(--red);transform-origin:left;border-radius:3px"></span></span></pre>
+      <div class="k" data-at="c2@0.6" data-fx="fade" style="margin-top:16px;font-size:20px;color:var(--muted)"><span class="mono">10:51:33.363 (date) − 10:51:26.827 (sent_at) = 6.536 s</span> · a record date, not a receipt <span style="color:var(--dim)">(derived)</span></div>
+      <div class="k stamp" data-at="c3" data-fx="pop" style="left:600px;top:330px;color:var(--red);border-color:var(--red);background:rgba(9,13,18,.9);text-align:center;line-height:1.1"><div style="transform:rotate(-5deg)">Withdrawn<div style="font-size:17px;letter-spacing:.12em;margin-top:6px">not inbox proof</div></div></div>
+    </div>
+    <div class="k card" data-at="c4-0.2" data-fx="up" style="left:1136px;top:176px;width:688px;height:470px;padding:24px 30px">
+      <div class="ct"><span class="dot" style="background:var(--mint)"></span>Runner matcher · tightened</div>
+      <div class="k" data-at="c4@0.30" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject the send receipt’s own id</div>
+      <div class="k" data-at="c4@0.45" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject folder <span class="mono">sent</span> / <span class="mono">outbox</span></div>
+      <div class="k" data-at="c4@0.58" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--red);font-weight:800">✗</span> reject status <span class="mono">queued</span></div>
+      <div class="k" data-at="c4@0.78" data-fx="left" style="font-size:24px;padding:9px 0;display:flex;gap:14px"><span style="color:var(--mint);font-weight:800">✓</span> require a distinct incoming copy</div>
+      <div class="k" data-at="c5" data-fx="up" style="margin-top:22px"><span class="chip amber" style="font-size:18px;padding:9px 16px">Synthetic case only — not provider evidence</span></div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: checks ============ -->
+  <section class="scene" data-scene="checks" data-label="Checks shown against the recorded candidate · fields from the captured authoritative JSON">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 4 · Validation</div>
+      <div class="h2" style="margin-top:10px">The only candidate, checked</div>
+    </div>
+    <div class="k card" data-at="0.3" data-fx="up" style="left:96px;top:176px;width:1100px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>Candidate <span class="mono" style="text-transform:none;letter-spacing:0;color:var(--text);font-size:18px">d1658608-52ce-4213-9886-f5c70a93efd3</span></div>
+      <div class="row k" data-at="c0@0.15" data-fx="left"><span class="kk" style="width:420px;font-size:23px;color:var(--text)">token in subject</span><span class="chip mint">✓ "mermail-canary mc-20261007-fq450to1"</span></div>
+      <div class="row k" data-at="c0@0.45" data-fx="left"><span class="kk" style="width:420px;font-size:23px;color:var(--text)">distinct from send-receipt id</span><span class="chip red">✗ same id</span></div>
+      <div class="row k" data-at="c0@0.75" data-fx="left"><span class="kk" style="width:420px;font-size:23px;color:var(--text)">landed in an inbound folder</span><span class="chip red">✗ folder_id "sent"</span></div>
+      <div class="row k" data-at="c1" data-fx="left"><span class="kk" style="width:420px;font-size:23px;color:var(--text)">sender_authentication</span><span class="chip grey">unknown · inbound_provider_unavailable</span></div>
+      <div class="row k" data-at="c1@0.75" data-fx="left"><span class="kk" style="width:420px;font-size:23px;color:var(--text)">scan_status</span><span class="chip grey">null</span></div>
+    </div>
+    <div class="k card" data-at="c2-0.1" data-fx="pop" style="left:1240px;top:176px;width:584px;height:440px;text-align:center;display:flex;flex-direction:column;justify-content:center;border-color:rgba(255,181,71,.5)">
+      <div class="big" style="color:var(--amber)">0</div>
+      <div style="font-size:28px;font-weight:700;margin-top:10px">validating candidates</div>
+      <div style="font-size:20px;color:var(--muted);margin-top:8px">inside the bounded window</div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: verdict ============ -->
+  <section class="scene" data-scene="verdict" data-label="Typeset excerpt of captured authoritative JSON · sha256 2291a179…">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 5 · Verdict</div>
+      <div class="h2" style="margin-top:10px">Authoritative result</div>
+    </div>
+    <div class="k card" data-at="c0@0.25" data-fx="pop" style="left:96px;top:176px;width:552px;height:230px;border-color:rgba(61,220,151,.5)">
+      <div class="ct"><span class="dot"></span>Outbound</div>
+      <div style="font-size:58px;font-weight:800;color:var(--mint);letter-spacing:-.01em;margin-top:18px">DELIVERED</div>
+      <div style="font-size:19px;color:var(--muted);margin-top:12px">d1658608… · folder Sent</div>
+    </div>
+    <div class="k card" data-at="c0@0.5" data-fx="pop" style="left:684px;top:176px;width:552px;height:230px;border-color:rgba(255,181,71,.5)">
+      <div class="ct"><span class="dot" style="background:var(--amber)"></span>Inbound</div>
+      <div style="font-size:52px;font-weight:800;color:var(--amber);letter-spacing:-.01em;margin-top:20px;line-height:1.05">NOT OBSERVED</div>
+      <div style="font-size:19px;color:var(--muted);margin-top:12px">no distinct incoming copy</div>
+    </div>
+    <div class="k card" data-at="c0@0.75" data-fx="pop" style="left:1272px;top:176px;width:552px;height:230px">
+      <div class="ct"><span class="dot" style="background:var(--dim)"></span>Round-trip latency</div>
+      <div style="font-size:52px;font-weight:800;color:var(--muted);letter-spacing:-.01em;margin-top:20px">UNAVAILABLE</div>
+      <div style="font-size:19px;color:var(--dim);margin-top:12px">no arrival timestamp → no number</div>
+    </div>
+    <div class="k card" data-at="c1-0.2" data-fx="up" style="left:96px;top:436px;width:1060px;padding:22px 32px">
+      <div class="ct" style="margin-bottom:12px"><span class="dot" style="background:var(--violet)"></span>mermail-live-canary-authoritative-20261007.json</div>
+<pre class="code" style="font-size:19px;line-height:1.5"><span class="key">"observed_at"</span><span class="p">:</span> <span class="s">"2026-10-07T10:55:23.492Z"</span><span class="p">,</span>
+<span class="key">"raw_runner_verdict"</span><span class="p">:</span> <span class="s">"degraded"</span><span class="p">,</span>
+<span class="key">"authoritative_verdict"</span><span class="p">:</span> <span class="s">"no_inbound_delivery_observed_in_bounded_window"</span><span class="p">,</span>
+<span class="key">"outbound_status"</span><span class="p">:</span> <span class="s">"delivered"</span><span class="p">,</span>
+<span class="key">"inbound_message_id"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.4" data-fx="fade">null</span><span class="p">,</span>
+<span class="key">"round_trip_latency"</span><span class="p">:</span> <span class="n hlbox k" data-at="c1@0.8" data-fx="fade">null</span></pre>
+    </div>
+    <div class="k" data-at="c2" data-fx="up" style="position:absolute;left:1196px;top:436px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;width:628px">
+      <span class="chip red" style="font-size:21px;padding:9px 18px">not healthy</span>
+      <span class="chip grey" style="font-size:21px;padding:9px 18px;text-decoration:line-through;opacity:.7">healthy</span>
+      <span class="chip grey" style="font-size:21px;padding:9px 18px;text-decoration:line-through;opacity:.7">latency 6.5 s</span>
+    </div>
+    <div class="k card" data-at="c3-0.1" data-fx="up" style="left:1196px;top:510px;width:628px;padding:20px 28px">
+      <div style="font-size:23px;font-weight:600;line-height:1.38">“Never claim the probe arrived on the basis of a send success or a pending state.”</div>
+      <div class="src" style="margin-top:8px">SKILL.md · Write Safety · PR #498 @ 0e9c800</div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: report ============ -->
+  <section class="scene" data-scene="report" data-label="Report summary composed from the captured records · no provider calls made for this video">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:96px;top:44px">
+      <div class="kick">Step 6 · Report</div>
+      <div class="h2" style="margin-top:10px">Auditable, and honest about the gap</div>
+    </div>
+    <div class="k card" data-at="c0" data-fx="up" style="left:96px;top:186px;width:1100px;padding:26px 36px">
+      <div class="ct"><span class="dot" style="background:var(--violet)"></span>Canary report · 2026-10-07</div>
+      <div class="row k" data-at="c0@0.15" data-fx="left"><span class="kk">mailbox</span><span class="vv mono" style="font-size:21px;line-height:1.45">tokenjunkielabs@mermail.app<br><span style="color:var(--muted)">e48c62aa-88e2-48be-8233-b01626e53d85</span></span></div>
+      <div class="row k" data-at="c0@0.5" data-fx="left"><span class="kk">probe token</span><span class="vv mono" style="font-size:21px;color:var(--mint)">mc-20261007-fq450to1</span></div>
+      <div class="row k" data-at="c0@0.75" data-fx="left"><span class="kk">outgoing id</span><span class="vv mono" style="font-size:21px">d1658608-52ce-4213-9886-f5c70a93efd3</span></div>
+      <div class="row k" data-at="c1" data-fx="left"><span class="kk">probe handling</span><span class="vv" style="font-size:21px;color:var(--muted)">never auto-deleted or moved · id reported for the owner</span></div>
+      <div class="row k" data-at="c2" data-fx="left"><span class="kk">verdict</span><span class="vv" style="font-size:21px"><span style="color:var(--mint)">outbound delivered</span> · <span style="color:var(--amber)">inbound not observed</span> · latency unavailable<br><span class="mono" style="font-size:17px;color:var(--muted)">no_inbound_delivery_observed_in_bounded_window · observed 10:55:23.492Z</span></span></div>
+      <div class="row k" data-at="c2@0.3" data-fx="left"><span class="kk">unverified stage</span><span class="vv" style="font-size:21px">receive</span></div>
+      <div class="row k" data-at="c2@0.6" data-fx="left"><span class="kk">next</span><span class="vv" style="font-size:21px">a fresh, approved probe — never an automatic resend</span></div>
+    </div>
+    <div class="k card" data-at="c3-0.2" data-fx="up" style="left:1236px;top:186px;width:588px;padding:28px 32px">
+      <div class="ct"><span class="dot" style="background:var(--blue)"></span>Open for review</div>
+      <div style="font-size:30px;font-weight:700;line-height:1.3">Nudgen-Marketing/<br>mermail-skills · PR #498</div>
+      <div class="mono" style="font-size:19px;color:var(--blue);margin-top:14px;line-height:1.4">github.com/Nudgen-Marketing/<br>mermail-skills/pull/498</div>
+      <div style="margin-top:16px;font-size:18px;color:var(--muted)">head <span class="mono">0e9c800</span> · skills/mermail-inbox-canary</div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: end ============ -->
+  <section class="scene" data-scene="end" data-label="">
+    <div class="k" data-at="0.1" data-fx="up" style="position:absolute;left:0;right:0;top:120px;text-align:center">
+      <div class="kick">Mermail Inbox Canary</div>
+      <div class="h1" style="margin-top:22px">Outbound delivered.<br><span style="color:var(--amber)">Inbound not observed.</span></div>
+      <div class="mono" style="font-size:28px;color:var(--blue);margin-top:36px">github.com/Nudgen-Marketing/mermail-skills/pull/498</div>
+    </div>
+    <div class="k" data-at="0.9" data-fx="fade" style="position:absolute;left:0;right:0;top:560px;text-align:center;font-size:20px;color:var(--dim);line-height:1.7">
+      Run record ACCOUNT-MERMAIL-INBOX-CANARY-20261007-01 · 2026-10-07 10:51 UTC · hosted Mermail MCP (mermail 1.0.0, 94 tools)<br>
+      Record cards visualize the run’s recorded provider values; no emails were sent and no provider calls were made to produce this video.<br>
+      Narration: synthetic voice (Piper, en_US-joe-medium, CC0) · Fonts: Inter, JetBrains Mono (OFL)
+    </div>
+  </section>
+
+  <!-- chrome -->
+  <div id="top">
+    <div class="brand"><div class="tj">TJ</div>TJLabs<div class="sep"></div><span class="prod">Mermail Inbox Canary</span></div>
+    <div id="steps">
+      <div class="step" data-step="1"><b>1</b>Request</div>
+      <div class="step" data-step="2"><b>2</b>Connect</div>
+      <div class="step" data-step="3"><b>3</b>Send</div>
+      <div class="step" data-step="4"><b>4</b>Search &amp; validate</div>
+      <div class="step" data-step="5"><b>5</b>Verdict</div>
+      <div class="step" data-step="6"><b>6</b>Report</div>
+    </div>
+    <div id="runstamp">recorded run<br><span class="mono">2026-10-07 10:51 UTC</span></div>
+  </div>
+  <div id="label"><i></i><span id="labeltext"></span></div>
+  <div id="cap" style="opacity:0"></div>
+</div>
+
+<script>
+const STEP_OF = {intro:1, connect:2, send:3, poll:4, compare:4, retraction:4, checks:4, verdict:5, report:6, end:6};
+let TL = null, SCENES = [];
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+
+function resolveTime(spec, sc) {
+  // "1.2" (scene-relative) | "c2" | "c2+0.4" | "c2-0.3" | "c2@0.5" (fraction of cue) | "e-1"
+  spec = String(spec).trim();
+  let m = spec.match(/^c(\d+)@([\d.]+)$/);
+  if (m) { const c = sc.cues[+m[1]]; return c.start + (c.end - c.start) * parseFloat(m[2]); }
+  m = spec.match(/^c(\d+)([+-][\d.]+)?$/);
+  if (m) return sc.cues[+m[1]].start + (m[2] ? parseFloat(m[2]) : 0);
+  m = spec.match(/^e([+-][\d.]+)?$/);
+  if (m) return sc.end + (m[1] ? parseFloat(m[1]) : 0);
+  return sc.start + parseFloat(spec);
+}
+function resolveDur(spec, sc, fallback) {
+  if (!spec) return fallback;
+  const m = String(spec).match(/^c(\d+):([\d.]+)$/);
+  if (m) { const c = sc.cues[+m[1]]; return (c.end - c.start) * parseFloat(m[2]); }
+  return parseFloat(spec);
+}
+
+window.initTimeline = function (tl) {
+  TL = tl;
+  SCENES = [...document.querySelectorAll('.scene')].map(el => {
+    const meta = tl.scenes.find(s => s.id === el.dataset.scene);
+    if (!meta) throw new Error('no timeline for scene ' + el.dataset.scene);
+    const cues = tl.cues.filter(c => c.scene === meta.id);
+    const sc = {el, id: meta.id, start: meta.start, end: meta.end, cues, label: el.dataset.label || ''};
+    sc.labelAt = el.dataset.labelAt ? resolveTime(el.dataset.labelAt, sc) : sc.start + 0.6;
+    sc.items = [...el.querySelectorAll('.k')].map(k => {
+      const it = {el: k, fx: k.dataset.fx || 'fade', at: resolveTime(k.dataset.at || '0', sc)};
+      if (k.dataset.out) it.out = resolveTime(k.dataset.out, sc);
+      if (it.fx === 'type') { it.text = k.dataset.text; it.dur = resolveDur(k.dataset.dur, sc, it.text.length * 0.035); }
+      if (it.fx === 'count') { it.to = +k.dataset.to; it.dur = resolveDur(k.dataset.dur, sc, 1.2); }
+      if (it.fx === 'sweep') { it.dur = resolveDur(k.dataset.dur, sc, 3); }
+      return it;
+    });
+    return sc;
+  });
+  return {scenes: SCENES.length, duration: tl.duration};
+};
+
+function applyItem(it, t) {
+  const el = it.el;
+  let p = clamp((t - it.at) / 0.55);
+  let e = easeOut(p);
+  let op = e, tf = '';
+  switch (it.fx) {
+    case 'up': tf = `translateY(${(1 - e) * 28}px)`; break;
+    case 'left': tf = `translateX(${(1 - e) * -26}px)`; break;
+    case 'pop': { const q = clamp((t - it.at) / 0.42); const s = q < 1 ? 0.86 + 0.14 * easeOut(q) + Math.sin(q * Math.PI) * 0.03 : 1; op = clamp(q * 1.6); tf = `scale(${s})`; break; }
+    case 'grow': { const q = easeInOut(clamp((t - it.at) / 0.7)); op = q > 0 ? 1 : 0; tf = `scaleX(${q})`; break; }
+    case 'type': {
+      op = t >= it.at ? 1 : 0;
+      const q = clamp((t - it.at) / it.dur);
+      const n = Math.round(q * it.text.length);
+      const blink = q < 1 || Math.floor(t * 2) % 2 === 0;
+      el.innerHTML = it.text.slice(0, n).replace(/&/g, '&amp;').replace(/</g, '&lt;') + (blink && t >= it.at ? '<span class="caret"></span>' : '');
+      break;
+    }
+    case 'count': {
+      const q = easeOut(clamp((t - it.at) / it.dur));
+      el.textContent = String(Math.round(q * it.to));
+      op = t >= it.at ? 1 : 1; // number is always visible inside its row
+      break;
+    }
+    case 'sweep': {
+      const q = ((t - it.at) / it.dur) % 1;
+      op = t >= it.at ? 1 : 0;
+      tf = `translateX(${-120 + q * 944}px)`;
+      break;
+    }
+    default: break; // fade
+  }
+  if (it.out !== undefined) {
+    const o = clamp((t - it.out) / 0.45);
+    op *= 1 - o;
+    if (o > 0 && it.fx !== 'grow') tf += ` translateY(${-14 * easeOut(o)}px)`;
+  }
+  el.style.opacity = op.toFixed(4);
+  el.style.transform = tf;
+}
+
+window.seek = function (t) {
+  // background drift
+  const st = document.getElementById('stage');
+  st.style.setProperty('--gx', (30 + 8 * Math.sin(t / 23)) + '%');
+  st.style.setProperty('--gy', (20 + 6 * Math.cos(t / 31)) + '%');
+  st.style.setProperty('--hx', (80 + 7 * Math.cos(t / 27)) + '%');
+  st.style.setProperty('--hy', (88 + 5 * Math.sin(t / 19)) + '%');
+
+  let active = SCENES[SCENES.length - 1];
+  for (const sc of SCENES) {
+    const fin = clamp((t - sc.start) / 0.45), fout = clamp((sc.end - t) / 0.45);
+    const vis = t >= sc.start && t < sc.end ? Math.min(easeOut(fin), sc === SCENES[SCENES.length - 1] ? 1 : easeOut(fout)) : 0;
+    sc.el.style.opacity = vis.toFixed(4);
+    sc.el.style.display = vis > 0 ? 'block' : 'none';
+    if (t >= sc.start && t < sc.end) active = sc;
+    if (vis > 0) sc.items.forEach(it => applyItem(it, t));
+  }
+  // chrome
+  const top = document.getElementById('top');
+  const topVis = active.id === 'intro' ? clamp((t - (active.cues[1] ? active.cues[1].start : 0) + 0.5) / 0.6) : 1;
+  top.style.opacity = topVis.toFixed(3);
+  const step = STEP_OF[active.id];
+  document.querySelectorAll('.step').forEach(s => {
+    const n = +s.dataset.step;
+    s.classList.toggle('on', n === step && active.id !== 'end');
+    s.classList.toggle('done', n < step || active.id === 'end');
+  });
+  const lab = document.getElementById('label');
+  document.getElementById('labeltext').textContent = active.label;
+  lab.style.opacity = active.label ? Math.min(clamp((t - active.labelAt) / 0.5), clamp((active.end - t) / 0.4)).toFixed(3) : 0;
+  // captions
+  const cap = document.getElementById('cap');
+  let cue = null;
+  for (const c of TL.cues) if (t >= c.start - 0.05 && t < c.end + 0.3) cue = c;
+  if (cue) {
+    if (cap.dataset.k !== cue.scene + cue.index) { cap.textContent = cue.text; cap.dataset.k = cue.scene + cue.index; }
+    cap.style.opacity = Math.min(clamp((t - cue.start + 0.05) / 0.15), clamp((cue.end + 0.3 - t) / 0.15)).toFixed(3);
+  } else cap.style.opacity = 0;
+};
+</script>
+</body>
+</html>

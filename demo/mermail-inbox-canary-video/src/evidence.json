@@ -1,0 +1,168 @@
+{
+  "schema": "mermail-canary-video-evidence/1",
+  "operation": "ACCOUNT-MERMAIL-INBOX-CANARY-20261007-01",
+  "provenance": {
+    "primary": "Captured run records delivered as Slack file F0C783829QB 'mermail-live-record-evidence-20261007.md' (stated 10095 bytes, sha256 f7c541837327322567a817b53c22529861218bc8932b7a011004b886f7822855) in internal thread C0BU51F1PL3/1790851459.659859, read with the Slack file tool on 2026-10-07",
+    "packet_contents": [
+      {
+        "file": "mermail-live-canary-authoritative-20261007.json",
+        "original_bytes": 2854,
+        "original_sha256": "2291a1793e841c82957eb806de0bed6ede62681a0d707010e13e3cf78a8d98f8"
+      },
+      {
+        "file": "mermail-live-canary-20261007.log",
+        "original_bytes": 2730,
+        "original_sha256": "f3ff6fdda1fb5f8c1cd1ac62b54681d2f749b4b8b41a2d8365d71291ecc75c46"
+      },
+      {
+        "file": "mermail-live-canary-20261007.journal.json",
+        "original_bytes": 717,
+        "original_sha256": "195fc165e6b8d828b22f5ae5165f7b9ad268dcfebaa74a083938c350d7b28f97"
+      },
+      {
+        "file": "mermail-inbound-reconciliation-20261007.json",
+        "original_bytes": 2253,
+        "original_sha256": "64f4473ae6b8e3c5c0b53b0f62cd88bd50129e8e4edef7381903102d473b6f15"
+      }
+    ],
+    "corroborating": "Owner task brief (2026-10-07) and Root factpack, Slack C0BU51F1PL3 ts 1791373831.283469 / correction ts 1791371450.965899",
+    "raw_files_read_by_this_render": true,
+    "rendering_note": "Record cards are typeset excerpts of the captured files (verbatim fragments; some log date prefixes shortened and long lines wrapped, marked on screen). Not screenshots. The render made no provider calls.",
+    "skill_source": "Nudgen-Marketing/mermail-skills PR #498, head 0e9c800e0003a6a72391252f5f7ece6586cd5880 (skills/mermail-inbox-canary/*)"
+  },
+  "server": {
+    "name": "mermail",
+    "version": "1.0.0",
+    "protocol": "2025-06-18",
+    "endpoint": "https://console.mermail.app/mcp",
+    "catalog": "full",
+    "tool_count": 94,
+    "send_email_present": true,
+    "auth": "authenticated hosted MCP session (credential values withheld)",
+    "endpoint_source": "skill documentation (SKILL.md / references/tools.md full-catalog URL); not shown in the captured log"
+  },
+  "workspace_id": "cmuxyyp7r02o2pi01rbjjeu4r",
+  "mailbox": {
+    "email": "tokenjunkielabs@mermail.app",
+    "public_id": "e48c62aa-88e2-48be-8233-b01626e53d85",
+    "state": "ready"
+  },
+  "runner": {
+    "node": "v24.19.0",
+    "sha256": "6cc9c032e1f34ec77872170bfaed682af038ccc7ea9bc64adfaff0df64297e71"
+  },
+  "probe": {
+    "token": "mc-20261007-fq450to1",
+    "journaled_at_utc": "2026-10-07T10:51:25.521Z",
+    "from": "tokenjunkielabs@mermail.app",
+    "to": "tokenjunkielabs@mermail.app",
+    "subject": "mermail-canary mc-20261007-fq450to1",
+    "idempotencyKey": "mc-20261007-fq450to1",
+    "mailboxId": "e48c62aa-88e2-48be-8233-b01626e53d85"
+  },
+  "send_receipt": {
+    "received_at_utc": "2026-10-07T10:51:26.827Z",
+    "id": "d1658608-52ce-4213-9886-f5c70a93efd3",
+    "status": "queued",
+    "undo_until_utc": "2026-10-07T10:51:38.363Z",
+    "send_count": 1
+  },
+  "later_readback": {
+    "id": "d1658608-52ce-4213-9886-f5c70a93efd3",
+    "status": "delivered",
+    "folder_id": "sent",
+    "folder_name": "Sent"
+  },
+  "search": {
+    "window": "bounded; recorded reads at 10:51:32Z, 10:52:50.050Z and 10:55:23.492Z (brief: bounded ~3 min searches)",
+    "candidates_found": [
+      "d1658608-52ce-4213-9886-f5c70a93efd3 (same outgoing message, folder_id sent)"
+    ],
+    "distinct_incoming_copy": false
+  },
+  "verdict": {
+    "outbound": "DELIVERED",
+    "inbound": "NOT OBSERVED",
+    "round_trip_latency": "UNAVAILABLE",
+    "healthy": false
+  },
+  "retracted": {
+    "claim": "early runner result 'degraded, 6.5 s'",
+    "reason": "matched the outgoing SENT row (same id as the send receipt); must not be used as inbox proof"
+  },
+  "matcher_repair": {
+    "rule": "reject the send receipt's own id, Sent/Outbox folders and queued status; require a distinct inbound copy",
+    "evidence_level": "exercised on a synthetic incoming case only; not provider proof"
+  },
+  "derived": {
+    "send_ack_after_planned_s": 1.306,
+    "undo_window_after_ack_s": 11.536,
+    "retracted_6_5s_is_date_minus_sent_at_s": 6.536,
+    "undo_until_after_planned_s": 12.842
+  },
+  "not_claimed": [
+    "any incoming message id",
+    "any arrival timestamp",
+    "any round-trip latency figure",
+    "a healthy verdict",
+    "any incoming-copy scan or authentication result (the shown scan_status/sender_authentication belong to the outgoing Sent row)",
+    "the operator's verbatim natural-language request (the record shows --approve-send; the on-screen prompt is the skill's scenario prompt)"
+  ],
+  "log": {
+    "init": "2026-10-07 10:51:23Z",
+    "connected": "2026-10-07 10:51:24Z",
+    "catalog_line": "catalog: 94 tools; send_email present as 'send_email'; idempotencyKey schema-declared: true",
+    "discovery_tools": [
+      "list_workspaces",
+      "list_mailboxes"
+    ],
+    "send_approval": "approved via --approve-send by the operator",
+    "poll_line": "[2026-10-07 10:51:32Z]   poll after +5s: candidates=1 total=1",
+    "get_email_line": "STEP 4 — get_email on the arrived probe (d1658608-52ce-4213-9886-f5c70a93efd3)",
+    "get_email_fields": {
+      "date": "2026-10-07T10:51:33.363Z",
+      "folder_id": "sent",
+      "delivery_status": "queued"
+    },
+    "raw_verdict_line": "VERDICT: degraded — round-trip 6.5s (provider field: date; header/record date, not a receipt)"
+  },
+  "observations": [
+    {
+      "at": "2026-10-07T10:51:32Z",
+      "source": "log STEP 3 search_emails poll +5s",
+      "result": "candidates=1 total=1"
+    },
+    {
+      "at": "2026-10-07T10:51:32Z",
+      "source": "log STEP 4 get_email",
+      "result": "id d1658608…, folder_id sent, delivery_status queued"
+    },
+    {
+      "at": "2026-10-07T10:52:50.050Z",
+      "source": "mermail-inbound-reconciliation-20261007.json",
+      "result": "totalCount 1: id d1658608…, folder_id sent, delivery_status delivered"
+    },
+    {
+      "at": "2026-10-07T10:55:23.492Z",
+      "source": "mermail-live-canary-authoritative-20261007.json",
+      "result": "totalCount 1: id d1658608…, folder_id sent, delivery_status delivered"
+    }
+  ],
+  "candidate_fields": {
+    "scan_status": null,
+    "sender_authentication": {
+      "status": "unknown",
+      "reason": "inbound_provider_unavailable"
+    },
+    "content_omitted": true
+  },
+  "authoritative_record": {
+    "observed_at": "2026-10-07T10:55:23.492Z",
+    "raw_runner_verdict": "degraded",
+    "authoritative_verdict": "no_inbound_delivery_observed_in_bounded_window",
+    "outbound_status": "delivered",
+    "inbound_message_id": null,
+    "round_trip_latency": null,
+    "reason": "Search matched the outgoing Sent row; no distinct incoming message was observed."
+  }
+}
